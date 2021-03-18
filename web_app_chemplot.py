@@ -60,9 +60,9 @@ if dataset == 'Sample Dataset':
      ('BBBP', 'AqSolDB'))
     
     if sample == "BBBP":
-        data =  pd.read_csv(".\Sample_Plots\\C_2039_BBBP_2.csv")
+        data =  pd.read_csv("Sample_Plots\\C_2039_BBBP_2.csv")
     else:
-        data =  pd.read_csv(".\Sample_Plots\\R_9982_AQSOLDB.csv")
+        data =  pd.read_csv("Sample_Plots\\R_9982_AQSOLDB.csv")
     data_expander = st.beta_expander("Explore the Dataset", expanded=False)
     with data_expander:
         st.dataframe(data)
