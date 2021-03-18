@@ -60,9 +60,9 @@ if dataset == 'Sample Dataset':
      ('BBBP', 'AqSolDB'))
     
     if sample == "BBBP":
-        data =  pd.read_csv("Sample_Plots\\C_2039_BBBP_2.csv")
+        data =  pd.read_csv("Sample_Plots/C_2039_BBBP_2.csv")
     else:
-        data =  pd.read_csv("Sample_Plots\\R_9982_AQSOLDB.csv")
+        data =  pd.read_csv("Sample_Plots/R_9982_AQSOLDB.csv")
     data_expander = st.beta_expander("Explore the Dataset", expanded=False)
     with data_expander:
         st.dataframe(data)
@@ -70,53 +70,53 @@ if dataset == 'Sample Dataset':
     data_plot = st.beta_expander("Visualize the Chemical Space", expanded=True)
     with data_plot:
         if sample == "BBBP" and sim_type == "tailored" and dim_red_algo == "t-SNE" and plot_type == "scatter":
-            HtmlFile = open("Sample_Plots\\BBBP_t_s_s.html", 'r', encoding='utf-8')
+            HtmlFile = open("Sample_Plots/BBBP_t_s_s.html", 'r', encoding='utf-8')
         elif sample == "BBBP" and sim_type == "tailored" and dim_red_algo == "t-SNE" and plot_type == "hex":
-            HtmlFile = open("Sample_Plots\\BBBP_t_s_h.html", 'r', encoding='utf-8')
+            HtmlFile = open("Sample_Plots/BBBP_t_s_h.html", 'r', encoding='utf-8')
         elif sample == "BBBP" and sim_type == "tailored" and dim_red_algo == "PCA" and plot_type == "scatter":
-            HtmlFile = open("Sample_Plots\\BBBP_t_p_s.html", 'r', encoding='utf-8')
+            HtmlFile = open("Sample_Plots/BBBP_t_p_s.html", 'r', encoding='utf-8')
         elif sample == "BBBP" and sim_type == "tailored" and dim_red_algo == "PCA" and plot_type == "hex":
-            HtmlFile = open("Sample_Plots\\BBBP_t_p_h.html", 'r', encoding='utf-8')
+            HtmlFile = open("Sample_Plots/BBBP_t_p_h.html", 'r', encoding='utf-8')
         elif sample == "BBBP" and sim_type == "tailored" and dim_red_algo == "UMAP" and plot_type == "scatter":
-            HtmlFile = open("Sample_Plots\\BBBP_t_u_s.html", 'r', encoding='utf-8')
+            HtmlFile = open("Sample_Plots/BBBP_t_u_s.html", 'r', encoding='utf-8')
         elif sample == "BBBP" and sim_type == "tailored" and dim_red_algo == "UMAP" and plot_type == "hex":
-            HtmlFile = open("Sample_Plots\\BBBP_t_u_h.html", 'r', encoding='utf-8')
+            HtmlFile = open("Sample_Plots/BBBP_t_u_h.html", 'r', encoding='utf-8')
         elif sample == "BBBP" and sim_type == "structural" and dim_red_algo == "t-SNE" and plot_type == "scatter":
-            HtmlFile = open("Sample_Plots\\BBBP_s_s_s.html", 'r', encoding='utf-8')
+            HtmlFile = open("Sample_Plots/BBBP_s_s_s.html", 'r', encoding='utf-8')
         elif sample == "BBBP" and sim_type == "structural" and dim_red_algo == "t-SNE" and plot_type == "hex":
-            HtmlFile = open("Sample_Plots\\BBBP_s_s_h.html", 'r', encoding='utf-8')
+            HtmlFile = open("Sample_Plots/BBBP_s_s_h.html", 'r', encoding='utf-8')
         elif sample == "BBBP" and sim_type == "structural" and dim_red_algo == "PCA" and plot_type == "scatter":
-            HtmlFile = open("Sample_Plots\\BBBP_s_p_s.html", 'r', encoding='utf-8')
+            HtmlFile = open("Sample_Plots/BBBP_s_p_s.html", 'r', encoding='utf-8')
         elif sample == "BBBP" and sim_type == "structural" and dim_red_algo == "PCA" and plot_type == "hex":
-            HtmlFile = open("Sample_Plots\\BBBP_s_p_h.html", 'r', encoding='utf-8')
+            HtmlFile = open("Sample_Plots/BBBP_s_p_h.html", 'r', encoding='utf-8')
         elif sample == "BBBP" and sim_type == "structural" and dim_red_algo == "UMAP" and plot_type == "scatter":
-            HtmlFile = open("Sample_Plots\\BBBP_s_u_s.html", 'r', encoding='utf-8')
+            HtmlFile = open("Sample_Plots/BBBP_s_u_s.html", 'r', encoding='utf-8')
         elif sample == "BBBP" and sim_type == "structural" and dim_red_algo == "UMAP" and plot_type == "hex":
-            HtmlFile = open("Sample_Plots\\BBBP_s_u_h.html", 'r', encoding='utf-8')
+            HtmlFile = open("Sample_Plots/BBBP_s_u_h.html", 'r', encoding='utf-8')
         elif sample == "AqSolDB" and sim_type == "tailored" and dim_red_algo == "t-SNE" and plot_type == "scatter":
-            HtmlFile = open("Sample_Plots\\AQSOLDB_t_s_s.html", 'r', encoding='utf-8')
+            HtmlFile = open("Sample_Plots/AQSOLDB_t_s_s.html", 'r', encoding='utf-8')
         elif sample == "AqSolDB" and sim_type == "tailored" and dim_red_algo == "t-SNE" and plot_type == "hex":
-            HtmlFile = open("Sample_Plots\\AQSOLDB_t_s_h.html", 'r', encoding='utf-8')
+            HtmlFile = open("Sample_Plots/AQSOLDB_t_s_h.html", 'r', encoding='utf-8')
         elif sample == "AqSolDB" and sim_type == "tailored" and dim_red_algo == "PCA" and plot_type == "scatter":
-            HtmlFile = open("Sample_Plots\\AQSOLDB_t_p_s.html", 'r', encoding='utf-8')
+            HtmlFile = open("Sample_Plots/AQSOLDB_t_p_s.html", 'r', encoding='utf-8')
         elif sample == "AqSolDB" and sim_type == "tailored" and dim_red_algo == "PCA" and plot_type == "hex":
-            HtmlFile = open("Sample_Plots\\AQSOLDB_t_p_h.html", 'r', encoding='utf-8')
+            HtmlFile = open("Sample_Plots/AQSOLDB_t_p_h.html", 'r', encoding='utf-8')
         elif sample == "AqSolDB" and sim_type == "tailored" and dim_red_algo == "UMAP" and plot_type == "scatter":
-            HtmlFile = open("Sample_Plots\\AQSOLDB_t_u_s.html", 'r', encoding='utf-8')
+            HtmlFile = open("Sample_Plots/AQSOLDB_t_u_s.html", 'r', encoding='utf-8')
         elif sample == "AqSolDB" and sim_type == "tailored" and dim_red_algo == "UMAP" and plot_type == "hex":
-            HtmlFile = open("Sample_Plots\\AQSOLDB_t_u_h.html", 'r', encoding='utf-8')
+            HtmlFile = open("Sample_Plots/AQSOLDB_t_u_h.html", 'r', encoding='utf-8')
         elif sample == "AqSolDB" and sim_type == "structural" and dim_red_algo == "t-SNE" and plot_type == "scatter":
-            HtmlFile = open("Sample_Plots\\AQSOLDB_s_s_s.html", 'r', encoding='utf-8')
+            HtmlFile = open("Sample_Plots/AQSOLDB_s_s_s.html", 'r', encoding='utf-8')
         elif sample == "AqSolDB" and sim_type == "structural" and dim_red_algo == "t-SNE" and plot_type == "hex":
-            HtmlFile = open("Sample_Plots\\AQSOLDB_s_s_h.html", 'r', encoding='utf-8')
+            HtmlFile = open("Sample_Plots/AQSOLDB_s_s_h.html", 'r', encoding='utf-8')
         elif sample == "AqSolDB" and sim_type == "structural" and dim_red_algo == "PCA" and plot_type == "scatter":
-            HtmlFile = open("Sample_Plots\\AQSOLDB_s_p_s.html", 'r', encoding='utf-8')
+            HtmlFile = open("Sample_Plots/AQSOLDB_s_p_s.html", 'r', encoding='utf-8')
         elif sample == "AqSolDB" and sim_type == "structural" and dim_red_algo == "PCA" and plot_type == "hex":
-            HtmlFile = open("Sample_Plots\\AQSOLDB_s_p_h.html", 'r', encoding='utf-8')
+            HtmlFile = open("Sample_Plots/AQSOLDB_s_p_h.html", 'r', encoding='utf-8')
         elif sample == "AqSolDB" and sim_type == "structural" and dim_red_algo == "UMAP" and plot_type == "scatter":
-            HtmlFile = open("Sample_Plots\\AQSOLDB_s_u_s.html", 'r', encoding='utf-8')
+            HtmlFile = open("Sample_Plots/AQSOLDB_s_u_s.html", 'r', encoding='utf-8')
         elif sample == "AqSolDB" and sim_type == "structural" and dim_red_algo == "UMAP" and plot_type == "hex":
-            HtmlFile = open("Sample_Plots\\AQSOLDB_s_u_h.html", 'r', encoding='utf-8')
+            HtmlFile = open("Sample_Plots/AQSOLDB_s_u_h.html", 'r', encoding='utf-8')
         
         plot_html = HtmlFile.read() 
         components.html(plot_html, width=900, height=740)
