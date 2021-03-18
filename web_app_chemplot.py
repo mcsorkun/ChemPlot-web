@@ -14,13 +14,16 @@ import pandas as pd
 import base64
 
 ######################
-# Custom Functions
+# Logos
 ######################
-            
+from PIL import Image
+tab_logo = Image.open("logo_mol.png")
+sidebar_logo = Image.open("chemplot_logo.png")
+
 ######################
 # Page Title
 ######################
-st.set_page_config(page_title="ChemPlot WebApplication")
+st.set_page_config(page_title="ChemPlot WebApplication", page_icon=tab_logo)
 
 st.write("""# ChemPlot: A Tool For Chemical Space Visualization""")
 
@@ -31,6 +34,8 @@ dataset = st.selectbox(
 ######################
 # Side Panel 
 ######################
+st.sidebar.image(sidebar_logo)
+
 st.sidebar.write('**Visualization Parameters**') 
 
 sim_type = st.sidebar.radio(
