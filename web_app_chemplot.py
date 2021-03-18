@@ -144,7 +144,7 @@ else:
         if column_target == 'There is no target':
             data_target=[]
         else:
-            data_target=data["target"] 
+            data_target=data[column_target] 
         data_expander = st.beta_expander("Explore the Dataset", expanded=False)
         with data_expander:
             st.dataframe(data)
