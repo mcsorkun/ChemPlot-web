@@ -1,5 +1,5 @@
 streamlit==0.78.0
-chemplot==0.1.1
+chemplot==0.1.2
 mordred==1.2.0
 Pillow==8.1.0
 pandas==1.1.3
