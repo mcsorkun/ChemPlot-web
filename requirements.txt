@@ -1,0 +1,11 @@
+streamlit==0.78.0
+bokeh==2.2.3
+chemplot==0.1.1
+mordred==1.2.0
+Pillow==8.1.0
+pandas==1.1.3
+scipy==1.5.2
+numpy==1.19.2
+
+conda:
+	rdkit
