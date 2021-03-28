@@ -27,6 +27,23 @@ st.set_page_config(page_title="ChemPlot WebApplication", page_icon=tab_logo)
 
 st.write("""# ChemPlot: A Tool For Chemical Space Visualization""")
 
+about_expander = st.beta_expander("About ChemPlot", expanded=False)
+with about_expander:
+    st.write('''
+             Chemplot is a python package that allows users to visualize the 
+             chemical space of their datasets. With this web application you 
+             can make use of ChemPlot algorithms to create interactive plots
+             of your molecular dataset. Use the side panel to select define the
+             parameters ChemPlot will use when generating a visualization. 
+             
+             If you are intrested in a more detailed explanation about ChemPlot
+             and in the theory behind the library please visit the official 
+             documentation at [Read the docs](https://chemplot.readthedocs.io/en/latest/).
+             ''', unsafe_allow_html=False)
+             
+st.write('') 
+st.write('**Select the Dataset**') 
+         
 dataset = st.selectbox(
      'Choose if to upload your dataset or use a sample',
      ('Sample Dataset', 'Upload Dataset'))
@@ -62,12 +79,14 @@ if dataset == 'Sample Dataset':
     #Example Dataset
     sample = st.selectbox(
     'Choose an Sample Dataset',
-     ('BBBP', 'AqSolDB'))
+     ('BBBP (Blood-Brain Barrier Penetration) [1]', 'AqSolDB (Aqueous Solubility) [2]'))
     
-    if sample == "BBBP":
+    if sample == "BBBP (Blood-Brain Barrier Penetration) [1]":
         data =  pd.read_csv("Sample_Plots/C_2039_BBBP_2.csv")
+        sample = 'BBBP'
     else:
         data =  pd.read_csv("Sample_Plots/R_9982_AQSOLDB.csv")
+        sample = 'AqSolDB'
     data_expander = st.beta_expander("Explore the Dataset", expanded=False)
     with data_expander:
         st.dataframe(data)
@@ -129,6 +148,20 @@ if dataset == 'Sample Dataset':
         b64 = base64.b64encode(plot_html.encode()).decode('utf-8')
         btn_download = f'<a href="data:file/html;base64,{b64}" download="interactive_plot.html"><input type="button" value="Download Plot"></a>'
         st.markdown(btn_download, unsafe_allow_html=True)
+    references = st.beta_expander("Sample Datasets Refereces", expanded=False)
+    with references:
+        st.write("""
+                 [1] Martins, Ines Filipa, et al. [A Bayesian approach to in 
+                 silico blood-brain barrier penetration modeling.] 
+                 (https://pubs.acs.org/doi/abs/10.1021/ci300124c) Journal of 
+                 chemical information and modeling 52.6 (2012): 1686-1697.
+                 
+                 [2] Sorkun, M. C., Khetan, A., & Er, S. (2019). [AqSolDB, a 
+                 curated reference set of aqueous solubility and 2D descriptors 
+                 for a diverse set of compounds.] 
+                 (https://www.nature.com/articles/s41597-019-0151-1) Scientific 
+                 data, 6(1), 1-8.
+                 """)
 else:
     #Uploaded Dataset
     uploaded_file = st.file_uploader("Upload a CSV file with your data")
@@ -157,6 +190,10 @@ else:
         data_plot = st.beta_expander("Visualize the Chemical Space", expanded=True)
         with data_plot:
             run = st.button('Create Visualization')
+            # Check if there is a target if the similarity type is tailored
+            if len(data_target) == 0 and sim_type == 'tailored':
+                st.warning('Please select a target to use tailored similarity')
+                st.stop()
             if run:
                 with st.spinner('Plotting your data...'):
                     
@@ -176,6 +213,23 @@ else:
                     st.markdown(btn_download, unsafe_allow_html=True)
                     
                     run = False
+
+contacts = st.beta_expander("Contact", expanded=False)
+with contacts:
+    st.write('''
+             #### Report an Issue 
+             
+             You are welcome to report a bug or contribuite to the web 
+             application by filing an issue on [Github] (https://github.com/mcsorkun/ChemPlot-web/issues).
+             
+             #### Contact
+             
+             For any question you can contact us through email:
+                 
+             - [Murat Cihan Sorkun] (mailto:mcsorkun@gmail.com)
+             - [Dajt Mullaj] (mailto:dajt.mullai@gmail.com)
+             ''')
+        
           
 
 
