@@ -12,6 +12,7 @@ import streamlit.components.v1 as components
 import interactive_plot
 import pandas as pd
 import base64
+import time
 
 ######################
 # Logos
@@ -20,6 +21,59 @@ from PIL import Image
 tab_logo = Image.open("logo_mol.png")
 sidebar_logo = Image.open("chemplot_logo.png")
 
+######################
+# Coefficients
+######################
+
+# Tailored
+PCA_TAIL_COEF_2 = 9.47299622e-08
+PCA_TAIL_COEF_1 = 2.90093365e-03
+PCA_TAIL_INTERC = 4.19205131
+
+TSNE_TAIL_COEF_2 = 3.31581244e-07
+TSNE_TAIL_COEF_1 = 6.10031290e-03
+TSNE_TAIL_INTERC = 5.16853254
+
+UMAP_TAIL_COEF_2 = 9.51843773e-08
+UMAP_TAIL_COEF_1 = 3.51897483e-03
+UMAP_TAIL_INTERC = 7.53709917
+
+# Structural
+PCA_STRU_COEF_2 = 1.63232808e-08
+PCA_STRU_COEF_1 = 1.40949297e-03
+PCA_STRU_INTERC = 0.61769033
+
+TSNE_STRU_COEF_2 = 3.79038881e-06
+TSNE_STRU_COEF_1 = 1.33859978e-03
+TSNE_STRU_INTERC = 7.28995309
+
+UMAP_STRU_COEF_2 = 2.87861709e-08
+UMAP_STRU_COEF_1 = 1.89154853e-03
+UMAP_STRU_INTERC = 3.65305908
+
+#########################
+# Running time functions
+#########################
+
+def get_running_time(n_samples, coef2, coef1, interc):
+    return (n_samples**2)*coef2+n_samples*coef1+interc
+
+def running_time(n_samples, sim_type, dim_red_algo):
+    if sim_type=="tailored":
+        if dim_red_algo=="t-SNE":
+            return get_running_time(n_samples, TSNE_TAIL_COEF_2, TSNE_TAIL_COEF_1, TSNE_TAIL_INTERC)
+        elif dim_red_algo=="PCA":
+            return get_running_time(n_samples, PCA_TAIL_COEF_2, PCA_TAIL_COEF_1, PCA_TAIL_INTERC)
+        else:
+            return get_running_time(n_samples, UMAP_TAIL_COEF_2, UMAP_TAIL_COEF_1, UMAP_TAIL_INTERC)
+    else:
+        if dim_red_algo=="t-SNE":
+            return get_running_time(n_samples, TSNE_STRU_COEF_2, TSNE_STRU_COEF_1, TSNE_STRU_INTERC)
+        elif dim_red_algo=="PCA":
+            return get_running_time(n_samples, PCA_STRU_COEF_2, PCA_STRU_COEF_1, PCA_STRU_INTERC)
+        else:
+            return get_running_time(n_samples, UMAP_STRU_COEF_2, UMAP_STRU_COEF_1, UMAP_STRU_INTERC)
+    
 ######################
 # Page Title
 ######################
@@ -195,7 +249,8 @@ else:
                 st.warning('Please select a target to use tailored similarity')
                 st.stop()
             if run:
-                with st.spinner('Plotting your data...'):
+                t = running_time(len(data_SMILES), sim_type, dim_red_algo)
+                with st.spinner(f'Plotting your data in about {t} seconds'):
                     
                     if random_state == -1:
                         random_state = None
@@ -205,6 +260,7 @@ else:
                     p = interactive_plot.get_plot(data_SMILES, target=data_target, sim_type=sim_type,
                                               dim_red_algo=dim_red_algo, plot_type=plot_type,
                                               rem_out=rem_out, random_state=random_state)
+                    my_bar = st.progress(0)
                     st.bokeh_chart(p, use_container_width=True)
                     
                     html = interactive_plot.get_html(p)
@@ -229,7 +285,7 @@ with contacts:
              - [Murat Cihan Sorkun] (mailto:mcsorkun@gmail.com)
              - [Dajt Mullaj] (mailto:dajt.mullai@gmail.com)
              ''')
-        
+
           
 
 
