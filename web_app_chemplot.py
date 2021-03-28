@@ -30,7 +30,7 @@ st.write("""# ChemPlot: A Tool For Chemical Space Visualization""")
 about_expander = st.beta_expander("About ChemPlot", expanded=False)
 with about_expander:
     st.write('''
-             Chemplot is a python package that allows users to visualize the 
+             ChemPlot is a python package that allows users to visualize the 
              chemical space of their datasets. With this web application you 
              can make use of ChemPlot algorithms to create interactive plots
              of your molecular dataset. Use the side panel to select define the
