@@ -6,7 +6,7 @@ If you are intrested in a more detailed explanation about ChemPlot and in the th
 
 ## Web application
 
-You can use the ChemPlot web application by following [this link](https://share.streamlit.io/mcsorkun/chemplot-web/main/web_app_chemplot.py)
+You can use the ChemPlot web application by following [this link](https://share.streamlit.io/mcsorkun/chemplot-web/main/web_app_chemplot.py).
 
 ## Report an Issue 
              
