@@ -4,15 +4,15 @@ ChemPlot is a python package that allows users to visualize the chemical space o
 
 If you are intrested in a more detailed explanation about ChemPlot and in the theory behind the library please visit the official documentation at [Read the docs](https://chemplot.readthedocs.io/en/latest/).
 
-# Web application
+## Web application
 
 You can use the ChemPlot web application by following [this link](https://share.streamlit.io/mcsorkun/chemplot-web/main/web_app_chemplot.py)
 
-# Report an Issue 
+## Report an Issue 
              
 You are welcome to report a bug or contribuite to the web application by filing an [issue](https://github.com/mcsorkun/ChemPlot-web/issues).
 
-# Contact
+## Contact
 
 For any question you can contact us through email:
 
