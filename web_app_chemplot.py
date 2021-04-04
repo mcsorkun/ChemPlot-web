@@ -97,8 +97,8 @@ def save_log(dataset, dataset_length, with_target, plot_start, plot_end,
     #f = open("Logs/BBBP_t_s_s.txt", 'w', encoding='utf-8')
     #f.write("Now the file has some content!")
     #f.close()
-    f = open("demofile2.txt", "a", encoding='utf-8')
-    f.write("Now the file has more content!")
+    f = open("demofile2.txt", "r", encoding='utf-8')
+    #f.write("Now the file has more content!")
     f.close()
     
 ######################
