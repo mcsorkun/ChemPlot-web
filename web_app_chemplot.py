@@ -14,6 +14,7 @@ import pandas as pd
 import base64
 from csv import writer
 from datetime import datetime
+import os
 
 ######################
 # Logos
@@ -87,7 +88,8 @@ def save_log(dataset, dataset_length, with_target, plot_start, plot_end,
                (plot_end - plot_start).total_seconds(), sim_type, dim_red_algo, 
                plot_type, rem_out, random_state]
     
-    with open('tmp/web_app_logs.csv', 'a+', newline='', encoding='utf-8') as log_file:
+    f = os.path.join("tmp", "web_app_logs.csv")
+    with open(f, 'a+', newline='', encoding='utf-8') as log_file:
         csv_writer = writer(log_file)
         csv_writer.writerow(log_row)
     
