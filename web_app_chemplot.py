@@ -89,7 +89,7 @@ def save_log(dataset, dataset_length, with_target, plot_start, plot_end,
                plot_type, rem_out, random_state]
     
     f = os.path.join("tmp", "web_app_logs.csv")
-    with open(f, 'a+', newline='', encoding='utf-8') as log_file:
+    with open(f, 'w', newline='', encoding='utf-8') as log_file:
         csv_writer = writer(log_file)
         csv_writer.writerow(log_row)
     
