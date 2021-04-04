@@ -97,8 +97,8 @@ def save_log(dataset, dataset_length, with_target, plot_start, plot_end,
     #f = open("Logs/BBBP_t_s_s.txt", 'w', encoding='utf-8')
     #f.write("Now the file has some content!")
     #f.close()
-    f = open("demofile2.txt", "r", encoding='utf-8')
-    #f.write("Now the file has more content!")
+    f = open("demofile2.txt", "a", encoding='utf-8')
+    f.write("Now the file has more content!")
     f.close()
     
 ######################
@@ -229,6 +229,7 @@ if dataset == 'Sample Dataset':
         plot_html = HtmlFile.read() 
         components.html(plot_html, width=900, height=740)
         plot_end = datetime.now()
+        HtmlFile.close()
         
         b64 = base64.b64encode(plot_html.encode()).decode('utf-8')
         btn_download = f'<a href="data:file/html;base64,{b64}" download="interactive_plot.html"><input type="button" value="Download Plot"></a>'
