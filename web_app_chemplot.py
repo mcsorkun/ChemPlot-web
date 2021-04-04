@@ -94,7 +94,7 @@ def save_log(dataset, dataset_length, with_target, plot_start, plot_end,
     f.close()
     
     #f = open("/tmp/demofile.txt", "w")
-    f = open("Logs/BBBP_t_s_s.html", 'w', encoding='utf-8')
+    f = open("Logs/BBBP_t_s_s.txt", 'w', encoding='utf-8')
     f.write("Now the file has some content!")
     f.close()
     
