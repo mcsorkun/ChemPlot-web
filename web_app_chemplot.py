@@ -87,7 +87,7 @@ def save_log(dataset, dataset_length, with_target, plot_start, plot_end,
                (plot_end - plot_start).total_seconds(), sim_type, dim_red_algo, 
                plot_type, rem_out, random_state]
     
-    log_file_path = './Logs/web_app_logs.csv'
+    log_file_path = '/Logs/web_app_logs.csv'
     with open(log_file_path, 'a+', newline='') as log_file:
         csv_writer = writer(log_file)
         csv_writer.writerow(log_row)
