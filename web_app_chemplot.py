@@ -12,7 +12,8 @@ import streamlit.components.v1 as components
 import interactive_plot
 import pandas as pd
 import base64
-import time
+from csv import writer
+from datetime import datetime
 
 ######################
 # Logos
@@ -56,7 +57,7 @@ UMAP_STRU_INTERC = 3.65305908
 #########################
 
 def get_running_time(n_samples, coef2, coef1, interc):
-    return (n_samples**2)*coef2+n_samples*coef1+interc
+    return int((n_samples**2)*coef2+n_samples*coef1+interc)
 
 def running_time(n_samples, sim_type, dim_red_algo):
     if sim_type=="tailored":
@@ -73,6 +74,23 @@ def running_time(n_samples, sim_type, dim_red_algo):
             return get_running_time(n_samples, PCA_STRU_COEF_2, PCA_STRU_COEF_1, PCA_STRU_INTERC)
         else:
             return get_running_time(n_samples, UMAP_STRU_COEF_2, UMAP_STRU_COEF_1, UMAP_STRU_INTERC)
+    
+#########################
+# Web log function
+#########################
+   
+def save_log(dataset, dataset_length, with_target, plot_start, plot_end, 
+             sim_type, dim_red_algo, plot_type, rem_out, random_state):
+    
+    log_row = [datetime.date(datetime.now()), datetime.time(datetime.now()), 
+               dataset, dataset_length, with_target,
+               (plot_end - plot_start).total_seconds(), sim_type, dim_red_algo, 
+               plot_type, rem_out, random_state]
+    
+    log_file_path = './Logs/web_app_logs.csv'
+    with open(log_file_path, 'a+', newline='') as log_file:
+        csv_writer = writer(log_file)
+        csv_writer.writerow(log_row)
     
 ######################
 # Page Title
@@ -138,13 +156,16 @@ if dataset == 'Sample Dataset':
     if sample == "BBBP (Blood-Brain Barrier Penetration) [1]":
         data =  pd.read_csv("Sample_Plots/C_2039_BBBP_2.csv")
         sample = 'BBBP'
+        dataset_length = 2039
     else:
         data =  pd.read_csv("Sample_Plots/R_9982_AQSOLDB.csv")
         sample = 'AqSolDB'
+        dataset_length = 9982
     data_expander = st.beta_expander("Explore the Dataset", expanded=False)
     with data_expander:
         st.dataframe(data)
             
+    plot_start = datetime.now()
     data_plot = st.beta_expander("Visualize the Chemical Space", expanded=True)
     with data_plot:
         if sample == "BBBP" and sim_type == "tailored" and dim_red_algo == "t-SNE" and plot_type == "scatter":
@@ -198,10 +219,11 @@ if dataset == 'Sample Dataset':
         
         plot_html = HtmlFile.read() 
         components.html(plot_html, width=900, height=740)
+        plot_end = datetime.now()
         
         b64 = base64.b64encode(plot_html.encode()).decode('utf-8')
         btn_download = f'<a href="data:file/html;base64,{b64}" download="interactive_plot.html"><input type="button" value="Download Plot"></a>'
-        st.markdown(btn_download, unsafe_allow_html=True)
+        st.markdown(btn_download, unsafe_allow_html=True) 
     references = st.beta_expander("Sample Datasets Refereces", expanded=False)
     with references:
         st.write("""
@@ -216,6 +238,9 @@ if dataset == 'Sample Dataset':
                  (https://www.nature.com/articles/s41597-019-0151-1) Scientific 
                  data, 6(1), 1-8.
                  """)
+
+    save_log(dataset, dataset_length, True, plot_start, plot_end, sim_type, 
+             dim_red_algo, plot_type, None, None)
 else:
     #Uploaded Dataset
     uploaded_file = st.file_uploader("Upload a CSV file with your data")
@@ -257,19 +282,25 @@ else:
                     else:
                         random_state = random_state
             
+                    plot_start = datetime.now()
                     p = interactive_plot.get_plot(data_SMILES, target=data_target, sim_type=sim_type,
                                               dim_red_algo=dim_red_algo, plot_type=plot_type,
                                               rem_out=rem_out, random_state=random_state)
-                    my_bar = st.progress(0)
+
                     st.bokeh_chart(p, use_container_width=True)
+                    plot_end = datetime.now()
                     
                     html = interactive_plot.get_html(p)
                     b64 = base64.b64encode(html.encode()).decode('utf-8')
                     btn_download = f'<a href="data:file/html;base64,{b64}" download="interactive_plot.html"><input type="button" value="Download Plot as HTML"></a>'
                     st.markdown(btn_download, unsafe_allow_html=True)
                     
+                    save_log(dataset, len(data_SMILES), len(data_target)>0, 
+                             plot_start, plot_end, sim_type, dim_red_algo, 
+                             plot_type, rem_out, random_state)
+                    
                     run = False
-
+    
 contacts = st.beta_expander("Contact", expanded=False)
 with contacts:
     st.write('''
