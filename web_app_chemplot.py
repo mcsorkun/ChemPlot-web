@@ -97,12 +97,12 @@ def save_log(dataset, dataset_length, with_target, plot_start, plot_end,
                'random_state':random_state}
     
     file_path = os.path.join("Logs", "web_app_logs.csv")
-    #df_logs = pd.read_csv(file_path)
-    #df_logs = df_logs.append(log_row, ignore_index=True)
-    #print(df_logs)
-    #df_logs.to_csv (r'checkmeout.csv', index = False, header=True)
+    df_logs = pd.read_csv(file_path)
+    df_logs = df_logs.append(log_row, ignore_index=True)
+    print(df_logs)
+    df_logs.to_csv(r'checkmeout.csv', index = False, header=True)
     
-    os.remove('web_app_logs.csv')
+    
     
 ######################
 # Page Title
