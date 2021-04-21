@@ -102,7 +102,7 @@ def save_log(dataset, dataset_length, with_target, plot_start, plot_end,
     #print(df_logs)
     #df_logs.to_csv (r'checkmeout.csv', index = False, header=True)
     
-    os.remove(file_path)
+    os.remove('web_app_logs.csv')
     
 ######################
 # Page Title
