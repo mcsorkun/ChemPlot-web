@@ -12,6 +12,7 @@ import streamlit.components.v1 as components
 import interactive_plot
 import pandas as pd
 import base64
+import csv
 from csv import writer
 from datetime import datetime
 import os
@@ -79,20 +80,29 @@ def running_time(n_samples, sim_type, dim_red_algo):
 #########################
 # Web log function
 #########################
-   
+      
 def save_log(dataset, dataset_length, with_target, plot_start, plot_end, 
              sim_type, dim_red_algo, plot_type, rem_out, random_state):
     
-    log_row = [datetime.date(datetime.now()), datetime.time(datetime.now()), 
-               dataset, dataset_length, with_target,
-               (plot_end - plot_start).total_seconds(), sim_type, dim_red_algo, 
-               plot_type, rem_out, random_state]
+    log_row = {'date':datetime.date(datetime.now()), 
+               'time':datetime.time(datetime.now()), 
+               'upload_method':dataset, 
+               'dataset_length':dataset_length, 
+               'target_length':with_target,
+               'plotting_time':(plot_end - plot_start).total_seconds(), 
+               'sim_type':sim_type, 
+               'algorithm':dim_red_algo, 
+               'plot_type':plot_type, 
+               'remove_outliers':rem_out, 
+               'random_state':random_state}
     
-    f = os.path.join("tmp", "web_app_logs.csv")
-    with open('text.txt', 'a', newline='', encoding='utf-8') as log_file:
-        log_file.write("sadsadad")
-       # csv_writer = writer(log_file)
-       # csv_writer.writerow(log_row)
+    file_path = os.path.join("Logs", "web_app_logs.csv")
+    #df_logs = pd.read_csv(file_path)
+    #df_logs = df_logs.append(log_row, ignore_index=True)
+    #print(df_logs)
+    #df_logs.to_csv (r'checkmeout.csv', index = False, header=True)
+    
+    os.remove(file_path)
     
 ######################
 # Page Title
