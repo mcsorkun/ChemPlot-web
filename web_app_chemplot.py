@@ -15,6 +15,7 @@ import base64
 from datetime import datetime
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
+import pytz
 
 ######################
 # Logos
@@ -89,10 +90,11 @@ def save_log(dataset, dataset_length, with_target, plot_start, plot_end,
     creds = ServiceAccountCredentials.from_json_keyfile_name('chemplot_sheet.json', scope)
     client = gspread.authorize(creds)
     
-    sheet = client.open("ChemPlot_logs").sheet1#    
+    sheet = client.open("ChemPlot_logs").sheet1 
     
-    log_row = [datetime.now().strftime("%m/%d/%Y"), 
-               datetime.now().strftime("%H:%M:%S"), 
+    tz = pytz.timezone('Europe/Amsterdam')
+    log_row = [datetime.now(tz).strftime("%m/%d/%Y"), 
+               datetime.now(tz).strftime("%H:%M:%S"), 
                dataset, 
                dataset_length, 
                with_target,
