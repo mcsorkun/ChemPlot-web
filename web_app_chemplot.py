@@ -12,10 +12,7 @@ import streamlit.components.v1 as components
 import interactive_plot
 import pandas as pd
 import base64
-import csv
-from csv import writer
 from datetime import datetime
-import os
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 
