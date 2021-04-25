@@ -16,6 +16,8 @@ import csv
 from csv import writer
 from datetime import datetime
 import os
+import gspread
+from oauth2client.service_account import ServiceAccountCredentials
 
 ######################
 # Logos
@@ -84,26 +86,28 @@ def running_time(n_samples, sim_type, dim_red_algo):
 def save_log(dataset, dataset_length, with_target, plot_start, plot_end, 
              sim_type, dim_red_algo, plot_type, rem_out, random_state):
     
-    log_row = {'date':datetime.date(datetime.now()), 
-               'time':datetime.time(datetime.now()), 
-               'upload_method':dataset, 
-               'dataset_length':dataset_length, 
-               'target_length':with_target,
-               'plotting_time':(plot_end - plot_start).total_seconds(), 
-               'sim_type':sim_type, 
-               'algorithm':dim_red_algo, 
-               'plot_type':plot_type, 
-               'remove_outliers':rem_out, 
-               'random_state':random_state}
+    # use creds to create a client to interact with the Google Drive API
+    scope = ['https://spreadsheets.google.com/feeds',
+             'https://www.googleapis.com/auth/drive']
+    creds = ServiceAccountCredentials.from_json_keyfile_name('chemplot_sheet.json', scope)
+    client = gspread.authorize(creds)
     
-    file_path = os.path.join("Logs", "web_app_logs.csv")
-    df_logs = pd.read_csv(file_path)
-    df_logs = df_logs.append(log_row, ignore_index=True)
-    print(df_logs)
-    df_logs.to_csv(r'checkmeout.csv', index = False, header=True)
+    sheet = client.open("ChemPlot_logs").sheet1#    
     
+    log_row = [datetime.now().strftime("%m/%d/%Y"), 
+               datetime.now().strftime("%H:%M:%S"), 
+               dataset, 
+               dataset_length, 
+               with_target,
+               (plot_end - plot_start).total_seconds(), 
+               sim_type, 
+               dim_red_algo, 
+               plot_type, 
+               rem_out, 
+               random_state]
     
-    
+    sheet.insert_row(log_row, 2)
+
 ######################
 # Page Title
 ######################

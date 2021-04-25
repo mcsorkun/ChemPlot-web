@@ -104,7 +104,7 @@ def get_plot(SMILES, target=[], title="", sim_type=None,
         p = figure(title=title, plot_width=700, plot_height=700, tools=tools, tooltips=TOOLTIPS)
         
         if len(cp.target) == 0:
-                p.circle(x=x, y=y, size=5.5, alpha=0.6, source=source)
+                p.circle(x=x, y=y, size=2.5, alpha=0.8, source=source)
         else:
             # Target exists
             if cp.target_type == 'C':

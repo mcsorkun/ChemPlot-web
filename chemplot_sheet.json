@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "chemplot-311813",
+  "private_key_id": "25216466d33f025de757145dd91edd95a83c9cb7",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQCrCVADB0Rz8lPa\nef7qZmuavaOIJHEvZBCbs7VTKSbOg3dXLIX6/1kuaNpvrk/OTED2CWr8lZxo/hDv\ne+uJfJAyPOIJHyoNbWWqmX86ynmwIE9RkWglJAEgB/8nFBdL8B7hy74NIKGOnsev\ntXCnDZ/KHrzRYcyxEMie6dKhNvBkUroSZF0cwqorCqmCWHi9Mve33WttWcUNNSql\nTXTM5tROUIyUS2qWawih47praec0klNVW33w1Bp1OEUUDJHV7Z147iN3wFpZIDuL\n3XhZdF3uQkKWZeyyeCUhWNf+k6ckDmwWLEnRGxz6ZzuInpTeLULRrJgte+yaD4GO\nMWhJTrBpAgMBAAECggEAEUF7RRLyoRANzbkJMvTqXk5LtWyXzsQ1uL/Ex4MbWzKA\nU9c2HUCt6rTBdQsNGi8vTqNcm+csRJt9cev6s4BRu//QfkMapwgmfbPG1lOfO1nH\nJt+YtkaPpn+oCnVIdGzhcL5xijmEkzMJynxvxSrmuCmpuyY21JZw5zeH/KPiVPyp\nbNMNrSx25If6+MLfL5lWYD2q/j0bg0xD7JXpv+/UdBD/wA/jvyvUJe9NdVwp2aJ1\n1bY8kHsJBeQH6FdrLOVzUZw3frL3PxOJZ270sz+r6WRlin08tdRbmAk/qYVKkCmU\nuPLAd0SaGRVmUiiyTw/3PDhQLZc5HUuSC0lz2Dx8UQKBgQDbENfGB5f/G4KWCiXO\n3KxFxU84vlDUXaiA7ddCMPSUwP8TvkNsG3nIPcuyvn5jxACoGTsSCqWePxbMD4mT\nCGQHvNQLM6WZo3wdFrv2UH1/xq4iVJSppm1w1V1S4CJQ4ZW54CjvKif13i4e1Sjo\n+87ydVPjiR3EgkcuGtOm7BYuQwKBgQDH33WSlSlFlRK0MiAUy+h/FssXbiP5f2S8\nk+zke6wTulRES0geHC2tWeTKoY06bSZdVCDz7LOdeP5nCc2pTW+O9PUJwA9fN5/D\nlrlGeseCldWFvXNxFF0KO/+O7GIAZ8ofmyncqikmRUh3oHLdm1mUL8LuVbeRExwi\n3aBiDcJ54wKBgHR5TxBWZ0VXPiZCPPnwsJPkJYv4/Ib9SSNL0gC6gMA6oSTBK53m\nOejymkRuLksjImo+B/8+s/IgfyF+PVp0wqKujltqWWkH2Gyq8sMy5pcybtGIAQb2\nmwe8GgN/ch9o4a/TdFA9LMP4HrN8CGVfxRd6tGCtPauGzQvBbbk5m017AoGAYHxS\nEInrG4kEN3K/I+rveHJzZgMoYKgL5DDwubet8PQQ+8rvrIFj13w+w0bLm3nXfFRB\neB868fjXrrv/yQv1n6hGpgdOJGQAvvWCyTA6IaLdKau0D9GJvIgMLV2VTabM3wcT\nZU/Lf4sQmZcd/DajPrLzwgQlEmaMPZSJeOw1hosCgYANeGFaTSus7eHWHRD9JSnv\nFDQYscfcIFq3Y0h1gkx0CTZofYVU/4l1JT3i+rCePPtZa0++/L7TqJ/HIJ24XZ63\nEjoYN3LeFN6y0IcGGi+JbIqK9SJwTQhE1QpxseFffGRf+tLQiIM5hq27gIi4RFqx\nrGM0o97x4nDdH7lZSArfEg==\n-----END PRIVATE KEY-----\n",
+  "client_email": "chemplot@chemplot-311813.iam.gserviceaccount.com",
+  "client_id": "115731361574109956961",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/chemplot%40chemplot-311813.iam.gserviceaccount.com"
+}
