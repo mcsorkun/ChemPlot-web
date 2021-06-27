@@ -9,13 +9,12 @@ Web Application for ChemPlot using Streamlit
 ######################
 import streamlit as st
 import streamlit.components.v1 as components
-import interactive_plot
 import pandas as pd
 import base64
-from datetime import datetime
-import gspread
-from oauth2client.service_account import ServiceAccountCredentials
-import pytz
+
+from chemplot import Plotter
+from bokeh.embed import file_html
+from bokeh.resources import CDN
 
 ######################
 # Logos
@@ -77,36 +76,6 @@ def running_time(n_samples, sim_type, dim_red_algo):
         else:
             return get_running_time(n_samples, UMAP_STRU_COEF_2, UMAP_STRU_COEF_1, UMAP_STRU_INTERC)
     
-#########################
-# Web log function
-#########################
-      
-def save_log(dataset, dataset_length, with_target, plot_start, plot_end, 
-             sim_type, dim_red_algo, plot_type, rem_out, random_state):
-    
-    # use creds to create a client to interact with the Google Drive API
-    scope = ['https://spreadsheets.google.com/feeds',
-             'https://www.googleapis.com/auth/drive']
-    creds = ServiceAccountCredentials.from_json_keyfile_name('chemplot_sheet.json', scope)
-    client = gspread.authorize(creds)
-    
-    sheet = client.open("ChemPlot_logs").sheet1 
-    
-    tz = pytz.timezone('Europe/Amsterdam')
-    log_row = [datetime.now(tz).strftime("%m/%d/%Y"), 
-               datetime.now(tz).strftime("%H:%M:%S"), 
-               dataset, 
-               dataset_length, 
-               with_target,
-               (plot_end - plot_start).total_seconds(), 
-               sim_type, 
-               dim_red_algo, 
-               plot_type, 
-               rem_out, 
-               random_state]
-    
-    sheet.insert_row(log_row, 2)
-
 ######################
 # Page Title
 ######################
@@ -171,16 +140,13 @@ if dataset == 'Sample Dataset':
     if sample == "BBBP (Blood-Brain Barrier Penetration) [1]":
         data =  pd.read_csv("Sample_Plots/C_2039_BBBP_2.csv")
         sample = 'BBBP'
-        dataset_length = 2039
     else:
         data =  pd.read_csv("Sample_Plots/R_9982_AQSOLDB.csv")
         sample = 'AqSolDB'
-        dataset_length = 9982
     data_expander = st.beta_expander("Explore the Dataset", expanded=False)
     with data_expander:
         st.dataframe(data)
             
-    plot_start = datetime.now()
     data_plot = st.beta_expander("Visualize the Chemical Space", expanded=True)
     with data_plot:
         if sample == "BBBP" and sim_type == "tailored" and dim_red_algo == "t-SNE" and plot_type == "scatter":
@@ -234,7 +200,6 @@ if dataset == 'Sample Dataset':
         
         plot_html = HtmlFile.read() 
         components.html(plot_html, width=900, height=740)
-        plot_end = datetime.now()
         HtmlFile.close()
         
         b64 = base64.b64encode(plot_html.encode()).decode('utf-8')
@@ -255,8 +220,6 @@ if dataset == 'Sample Dataset':
                  data, 6(1), 1-8.
                  """)
 
-    save_log(dataset, dataset_length, True, plot_start, plot_end, sim_type, 
-             dim_red_algo, plot_type, None, None)
 else:
     #Uploaded Dataset
     uploaded_file = st.file_uploader("Upload a CSV file with your data")
@@ -298,22 +261,22 @@ else:
                     else:
                         random_state = random_state
             
-                    plot_start = datetime.now()
-                    p = interactive_plot.get_plot(data_SMILES, target=data_target, sim_type=sim_type,
-                                              dim_red_algo=dim_red_algo, plot_type=plot_type,
-                                              rem_out=rem_out, random_state=random_state)
+                    cp = Plotter.from_smiles(data_SMILES, target=data_target, sim_type=sim_type)
+                    if dim_red_algo=='PCA':
+                        cp.pca()
+                    elif dim_red_algo=='t-SNE':
+                        cp.tsne(random_state=random_state)
+                    elif dim_red_algo=='UMAP':
+                        cp.umap(random_state=random_state)
+                        
+                    p = cp.interactive_plot.get_plot(kind=plot_type,remove_outliers=rem_out)
 
                     st.bokeh_chart(p, use_container_width=True)
-                    plot_end = datetime.now()
                     
-                    html = interactive_plot.get_html(p)
+                    html = file_html(p, CDN)
                     b64 = base64.b64encode(html.encode()).decode('utf-8')
                     btn_download = f'<a href="data:file/html;base64,{b64}" download="interactive_plot.html"><input type="button" value="Download Plot as HTML"></a>'
                     st.markdown(btn_download, unsafe_allow_html=True)
-                    
-                    save_log(dataset, len(data_SMILES), len(data_target)>0, 
-                             plot_start, plot_end, sim_type, dim_red_algo, 
-                             plot_type, rem_out, random_state)
                     
                     run = False
     
