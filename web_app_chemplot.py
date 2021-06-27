@@ -269,7 +269,7 @@ else:
                     elif dim_red_algo=='UMAP':
                         cp.umap(random_state=random_state)
                         
-                    p = cp.interactive_plot.get_plot(kind=plot_type,remove_outliers=rem_out)
+                    p = cp.interactive_plot(kind=plot_type,remove_outliers=rem_out)
 
                     st.bokeh_chart(p, use_container_width=True)
                     
