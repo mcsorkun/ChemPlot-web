@@ -97,7 +97,6 @@ with about_expander:
              documentation at [Read the docs](https://chemplot.readthedocs.io/en/latest/).
              ''', unsafe_allow_html=False)
              
-st.write('') 
 st.write('**Select the Dataset**') 
          
 dataset = st.selectbox(
