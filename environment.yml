@@ -1,14 +1,13 @@
 name: aqsolpred
 channels:
-- rdkit
+- chemplot
 - conda-forge
 - defaults
 dependencies:
-    - libgcc=5.2.0
     - rdkit
+    - chemplot==1.0.2
     - pip
     - pip: 
-        - streamlit==0.81.0
-        - chemplot==1.0.2
+        - streamlit==0.83.0
         - pandas==1.1.3
         - bokeh==2.2.3
