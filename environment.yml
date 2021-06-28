@@ -9,6 +9,6 @@ dependencies:
     - pip
     - pip: 
         - streamlit==0.81.0
-        - chemplot==1.0.1
+        - chemplot==1.0.2
         - pandas==1.1.3
         - bokeh==2.2.3
