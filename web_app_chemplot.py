@@ -75,7 +75,85 @@ def running_time(n_samples, sim_type, dim_red_algo):
             return get_running_time(n_samples, PCA_STRU_COEF_2, PCA_STRU_COEF_1, PCA_STRU_INTERC)
         else:
             return get_running_time(n_samples, UMAP_STRU_COEF_2, UMAP_STRU_COEF_1, UMAP_STRU_INTERC)
+
+#########################
+# Session state functions
+#########################
     
+def update_plot():
+    if dataset == 'Sample Dataset':
+        update_html_plot()
+    else:
+        update_custom_plot()
+        
+def update_html_plot():
+    if sample == "BBBP" and sim_type == "tailored" and dim_red_algo == "t-SNE" and plot_type == "scatter":
+        HtmlFile = open("Sample_Plots/BBBP_t_s_s.html", 'r', encoding='utf-8')
+    elif sample == "BBBP" and sim_type == "tailored" and dim_red_algo == "t-SNE" and plot_type == "hex":
+        HtmlFile = open("Sample_Plots/BBBP_t_s_h.html", 'r', encoding='utf-8')
+    elif sample == "BBBP" and sim_type == "tailored" and dim_red_algo == "PCA" and plot_type == "scatter":
+        HtmlFile = open("Sample_Plots/BBBP_t_p_s.html", 'r', encoding='utf-8')
+    elif sample == "BBBP" and sim_type == "tailored" and dim_red_algo == "PCA" and plot_type == "hex":
+        HtmlFile = open("Sample_Plots/BBBP_t_p_h.html", 'r', encoding='utf-8')
+    elif sample == "BBBP" and sim_type == "tailored" and dim_red_algo == "UMAP" and plot_type == "scatter":
+        HtmlFile = open("Sample_Plots/BBBP_t_u_s.html", 'r', encoding='utf-8')
+    elif sample == "BBBP" and sim_type == "tailored" and dim_red_algo == "UMAP" and plot_type == "hex":
+        HtmlFile = open("Sample_Plots/BBBP_t_u_h.html", 'r', encoding='utf-8')
+    elif sample == "BBBP" and sim_type == "structural" and dim_red_algo == "t-SNE" and plot_type == "scatter":
+        HtmlFile = open("Sample_Plots/BBBP_s_s_s.html", 'r', encoding='utf-8')
+    elif sample == "BBBP" and sim_type == "structural" and dim_red_algo == "t-SNE" and plot_type == "hex":
+        HtmlFile = open("Sample_Plots/BBBP_s_s_h.html", 'r', encoding='utf-8')
+    elif sample == "BBBP" and sim_type == "structural" and dim_red_algo == "PCA" and plot_type == "scatter":
+        HtmlFile = open("Sample_Plots/BBBP_s_p_s.html", 'r', encoding='utf-8')
+    elif sample == "BBBP" and sim_type == "structural" and dim_red_algo == "PCA" and plot_type == "hex":
+        HtmlFile = open("Sample_Plots/BBBP_s_p_h.html", 'r', encoding='utf-8')
+    elif sample == "BBBP" and sim_type == "structural" and dim_red_algo == "UMAP" and plot_type == "scatter":
+        HtmlFile = open("Sample_Plots/BBBP_s_u_s.html", 'r', encoding='utf-8')
+    elif sample == "BBBP" and sim_type == "structural" and dim_red_algo == "UMAP" and plot_type == "hex":
+        HtmlFile = open("Sample_Plots/BBBP_s_u_h.html", 'r', encoding='utf-8')
+    elif sample == "AqSolDB" and sim_type == "tailored" and dim_red_algo == "t-SNE" and plot_type == "scatter":
+        HtmlFile = open("Sample_Plots/AQSOLDB_t_s_s.html", 'r', encoding='utf-8')
+    elif sample == "AqSolDB" and sim_type == "tailored" and dim_red_algo == "t-SNE" and plot_type == "hex":
+        HtmlFile = open("Sample_Plots/AQSOLDB_t_s_h.html", 'r', encoding='utf-8')
+    elif sample == "AqSolDB" and sim_type == "tailored" and dim_red_algo == "PCA" and plot_type == "scatter":
+        HtmlFile = open("Sample_Plots/AQSOLDB_t_p_s.html", 'r', encoding='utf-8')
+    elif sample == "AqSolDB" and sim_type == "tailored" and dim_red_algo == "PCA" and plot_type == "hex":
+        HtmlFile = open("Sample_Plots/AQSOLDB_t_p_h.html", 'r', encoding='utf-8')
+    elif sample == "AqSolDB" and sim_type == "tailored" and dim_red_algo == "UMAP" and plot_type == "scatter":
+        HtmlFile = open("Sample_Plots/AQSOLDB_t_u_s.html", 'r', encoding='utf-8')
+    elif sample == "AqSolDB" and sim_type == "tailored" and dim_red_algo == "UMAP" and plot_type == "hex":
+        HtmlFile = open("Sample_Plots/AQSOLDB_t_u_h.html", 'r', encoding='utf-8')
+    elif sample == "AqSolDB" and sim_type == "structural" and dim_red_algo == "t-SNE" and plot_type == "scatter":
+        HtmlFile = open("Sample_Plots/AQSOLDB_s_s_s.html", 'r', encoding='utf-8')
+    elif sample == "AqSolDB" and sim_type == "structural" and dim_red_algo == "t-SNE" and plot_type == "hex":
+        HtmlFile = open("Sample_Plots/AQSOLDB_s_s_h.html", 'r', encoding='utf-8')
+    elif sample == "AqSolDB" and sim_type == "structural" and dim_red_algo == "PCA" and plot_type == "scatter":
+        HtmlFile = open("Sample_Plots/AQSOLDB_s_p_s.html", 'r', encoding='utf-8')
+    elif sample == "AqSolDB" and sim_type == "structural" and dim_red_algo == "PCA" and plot_type == "hex":
+        HtmlFile = open("Sample_Plots/AQSOLDB_s_p_h.html", 'r', encoding='utf-8')
+    elif sample == "AqSolDB" and sim_type == "structural" and dim_red_algo == "UMAP" and plot_type == "scatter":
+        HtmlFile = open("Sample_Plots/AQSOLDB_s_u_s.html", 'r', encoding='utf-8')
+    elif sample == "AqSolDB" and sim_type == "structural" and dim_red_algo == "UMAP" and plot_type == "hex":
+        HtmlFile = open("Sample_Plots/AQSOLDB_s_u_h.html", 'r', encoding='utf-8')
+    
+    st.session_state.plot_html = HtmlFile.read() 
+    HtmlFile.close()
+    
+def update_custom_plot():
+    st.session_state.new_plot = True
+    
+def generate_custom_plot():
+    cp = Plotter.from_smiles(data_SMILES, target=data_target, sim_type=sim_type)
+    if dim_red_algo=='PCA':
+        cp.pca()
+    elif dim_red_algo=='t-SNE':
+        cp.tsne(random_state=random_state)
+    elif dim_red_algo=='UMAP':
+        cp.umap(random_state=random_state)
+    
+    st.session_state.custom_plot = cp.interactive_plot(kind=plot_type,remove_outliers=rem_out)
+    st.session_state.new_plot = False
+                    
 ######################
 # Page Title
 ######################
@@ -126,6 +204,10 @@ if dataset == 'Upload Dataset':
     rem_out = st.sidebar.checkbox("Do you want to remove outliers?")
     random_state = st.sidebar.number_input("Enter the random state (-1 for None)", min_value=-1, step=1)
 
+create_viz = st.sidebar.button('Create Visualization', 
+                               help='Generate visualization with the current parameters.',
+                               on_click=update_plot)
+
 ######################
 # Input Data
 ######################
@@ -148,60 +230,13 @@ if dataset == 'Sample Dataset':
             
     data_plot = st.beta_expander("Visualize the Chemical Space", expanded=True)
     with data_plot:
-        if sample == "BBBP" and sim_type == "tailored" and dim_red_algo == "t-SNE" and plot_type == "scatter":
-            HtmlFile = open("Sample_Plots/BBBP_t_s_s.html", 'r', encoding='utf-8')
-        elif sample == "BBBP" and sim_type == "tailored" and dim_red_algo == "t-SNE" and plot_type == "hex":
-            HtmlFile = open("Sample_Plots/BBBP_t_s_h.html", 'r', encoding='utf-8')
-        elif sample == "BBBP" and sim_type == "tailored" and dim_red_algo == "PCA" and plot_type == "scatter":
-            HtmlFile = open("Sample_Plots/BBBP_t_p_s.html", 'r', encoding='utf-8')
-        elif sample == "BBBP" and sim_type == "tailored" and dim_red_algo == "PCA" and plot_type == "hex":
-            HtmlFile = open("Sample_Plots/BBBP_t_p_h.html", 'r', encoding='utf-8')
-        elif sample == "BBBP" and sim_type == "tailored" and dim_red_algo == "UMAP" and plot_type == "scatter":
-            HtmlFile = open("Sample_Plots/BBBP_t_u_s.html", 'r', encoding='utf-8')
-        elif sample == "BBBP" and sim_type == "tailored" and dim_red_algo == "UMAP" and plot_type == "hex":
-            HtmlFile = open("Sample_Plots/BBBP_t_u_h.html", 'r', encoding='utf-8')
-        elif sample == "BBBP" and sim_type == "structural" and dim_red_algo == "t-SNE" and plot_type == "scatter":
-            HtmlFile = open("Sample_Plots/BBBP_s_s_s.html", 'r', encoding='utf-8')
-        elif sample == "BBBP" and sim_type == "structural" and dim_red_algo == "t-SNE" and plot_type == "hex":
-            HtmlFile = open("Sample_Plots/BBBP_s_s_h.html", 'r', encoding='utf-8')
-        elif sample == "BBBP" and sim_type == "structural" and dim_red_algo == "PCA" and plot_type == "scatter":
-            HtmlFile = open("Sample_Plots/BBBP_s_p_s.html", 'r', encoding='utf-8')
-        elif sample == "BBBP" and sim_type == "structural" and dim_red_algo == "PCA" and plot_type == "hex":
-            HtmlFile = open("Sample_Plots/BBBP_s_p_h.html", 'r', encoding='utf-8')
-        elif sample == "BBBP" and sim_type == "structural" and dim_red_algo == "UMAP" and plot_type == "scatter":
-            HtmlFile = open("Sample_Plots/BBBP_s_u_s.html", 'r', encoding='utf-8')
-        elif sample == "BBBP" and sim_type == "structural" and dim_red_algo == "UMAP" and plot_type == "hex":
-            HtmlFile = open("Sample_Plots/BBBP_s_u_h.html", 'r', encoding='utf-8')
-        elif sample == "AqSolDB" and sim_type == "tailored" and dim_red_algo == "t-SNE" and plot_type == "scatter":
-            HtmlFile = open("Sample_Plots/AQSOLDB_t_s_s.html", 'r', encoding='utf-8')
-        elif sample == "AqSolDB" and sim_type == "tailored" and dim_red_algo == "t-SNE" and plot_type == "hex":
-            HtmlFile = open("Sample_Plots/AQSOLDB_t_s_h.html", 'r', encoding='utf-8')
-        elif sample == "AqSolDB" and sim_type == "tailored" and dim_red_algo == "PCA" and plot_type == "scatter":
-            HtmlFile = open("Sample_Plots/AQSOLDB_t_p_s.html", 'r', encoding='utf-8')
-        elif sample == "AqSolDB" and sim_type == "tailored" and dim_red_algo == "PCA" and plot_type == "hex":
-            HtmlFile = open("Sample_Plots/AQSOLDB_t_p_h.html", 'r', encoding='utf-8')
-        elif sample == "AqSolDB" and sim_type == "tailored" and dim_red_algo == "UMAP" and plot_type == "scatter":
-            HtmlFile = open("Sample_Plots/AQSOLDB_t_u_s.html", 'r', encoding='utf-8')
-        elif sample == "AqSolDB" and sim_type == "tailored" and dim_red_algo == "UMAP" and plot_type == "hex":
-            HtmlFile = open("Sample_Plots/AQSOLDB_t_u_h.html", 'r', encoding='utf-8')
-        elif sample == "AqSolDB" and sim_type == "structural" and dim_red_algo == "t-SNE" and plot_type == "scatter":
-            HtmlFile = open("Sample_Plots/AQSOLDB_s_s_s.html", 'r', encoding='utf-8')
-        elif sample == "AqSolDB" and sim_type == "structural" and dim_red_algo == "t-SNE" and plot_type == "hex":
-            HtmlFile = open("Sample_Plots/AQSOLDB_s_s_h.html", 'r', encoding='utf-8')
-        elif sample == "AqSolDB" and sim_type == "structural" and dim_red_algo == "PCA" and plot_type == "scatter":
-            HtmlFile = open("Sample_Plots/AQSOLDB_s_p_s.html", 'r', encoding='utf-8')
-        elif sample == "AqSolDB" and sim_type == "structural" and dim_red_algo == "PCA" and plot_type == "hex":
-            HtmlFile = open("Sample_Plots/AQSOLDB_s_p_h.html", 'r', encoding='utf-8')
-        elif sample == "AqSolDB" and sim_type == "structural" and dim_red_algo == "UMAP" and plot_type == "scatter":
-            HtmlFile = open("Sample_Plots/AQSOLDB_s_u_s.html", 'r', encoding='utf-8')
-        elif sample == "AqSolDB" and sim_type == "structural" and dim_red_algo == "UMAP" and plot_type == "hex":
-            HtmlFile = open("Sample_Plots/AQSOLDB_s_u_h.html", 'r', encoding='utf-8')
+        #Initialize plot
+        if 'plot_html' not in st.session_state:
+            update_html_plot()
         
-        plot_html = HtmlFile.read() 
-        components.html(plot_html, width=900, height=740)
-        HtmlFile.close()
+        components.html(st.session_state.plot_html, width=900, height=740)
         
-        b64 = base64.b64encode(plot_html.encode()).decode('utf-8')
+        b64 = base64.b64encode(st.session_state.plot_html.encode()).decode('utf-8')
         btn_download = f'<a href="data:file/html;base64,{b64}" download="interactive_plot.html"><input type="button" value="Download Plot"></a>'
         st.markdown(btn_download, unsafe_allow_html=True) 
     references = st.beta_expander("Sample Datasets Refereces", expanded=False)
@@ -246,38 +281,28 @@ else:
         
         data_plot = st.beta_expander("Visualize the Chemical Space", expanded=True)
         with data_plot:
-            run = st.button('Create Visualization')
             # Check if there is a target if the similarity type is tailored
             if len(data_target) == 0 and sim_type == 'tailored':
                 st.warning('Please select a target to use tailored similarity')
-                st.stop()
-            if run:
-                t = running_time(len(data_SMILES), sim_type, dim_red_algo)
-                with st.spinner(f'Plotting your data in about {t} seconds'):
+            else:
+                time = running_time(len(data_SMILES), sim_type, dim_red_algo)
+                if random_state == -1:
+                    random_state = None
                     
-                    if random_state == -1:
-                        random_state = None
-                    else:
-                        random_state = random_state
-            
-                    cp = Plotter.from_smiles(data_SMILES, target=data_target, sim_type=sim_type)
-                    if dim_red_algo=='PCA':
-                        cp.pca()
-                    elif dim_red_algo=='t-SNE':
-                        cp.tsne(random_state=random_state)
-                    elif dim_red_algo=='UMAP':
-                        cp.umap(random_state=random_state)
-                        
-                    p = cp.interactive_plot(kind=plot_type,remove_outliers=rem_out)
-
-                    st.bokeh_chart(p, use_container_width=True)
-                    
-                    html = file_html(p, CDN)
-                    b64 = base64.b64encode(html.encode()).decode('utf-8')
-                    btn_download = f'<a href="data:file/html;base64,{b64}" download="interactive_plot.html"><input type="button" value="Download Plot as HTML"></a>'
-                    st.markdown(btn_download, unsafe_allow_html=True)
-                    
-                    run = False
+                #Initialize plot
+                if 'new_plot' not in st.session_state:
+                    update_custom_plot()
+                
+                if st.session_state.new_plot:
+                    with st.spinner(f'Plotting your data in about {time} seconds'):  
+                        generate_custom_plot()
+        
+                st.bokeh_chart(st.session_state.custom_plot, use_container_width=True)
+                
+                html = file_html(st.session_state.custom_plot, CDN)
+                b64 = base64.b64encode(html.encode()).decode('utf-8')
+                btn_download = f'<a href="data:file/html;base64,{b64}" download="interactive_plot.html"><input type="button" value="Download Plot as HTML"></a>'
+                st.markdown(btn_download, unsafe_allow_html=True)
     
 contacts = st.beta_expander("Contact", expanded=False)
 with contacts:
