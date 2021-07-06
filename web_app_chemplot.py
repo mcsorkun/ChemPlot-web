@@ -234,7 +234,7 @@ if dataset == 'Sample Dataset':
         if 'plot_html' not in st.session_state:
             update_html_plot()
         
-        components.html(st.session_state.plot_html, width=900, height=740)
+        components.html(st.session_state.plot_html, width=900, height=680)
         
         b64 = base64.b64encode(st.session_state.plot_html.encode()).decode('utf-8')
         btn_download = f'<a href="data:file/html;base64,{b64}" download="interactive_plot.html"><input type="button" value="Download Plot"></a>'
