@@ -259,50 +259,59 @@ else:
     uploaded_file = st.file_uploader("Upload a CSV file with your data")
     if uploaded_file is not None:
         data = pd.read_csv(uploaded_file)
-        # Get data from dataframe
-        col_SMILES, col_target = st.beta_columns(2)
-        columns_values = ['There is no target'] + data.columns.tolist()
-        with col_SMILES:
-            column_SMILES = st.selectbox(
-             'Which one is the SMILES column?',
-             (data.columns))
-        with col_target:
-            column_target = st.selectbox(
-             'Which one is the target column?',
-             (columns_values))
-        data_SMILES=data[column_SMILES] 
-        if column_target == 'There is no target':
-            data_target=[]
+        # Check if dataset is too big
+        if len(data) > 5000:
+            st.error("""
+                     Currently the web app does not support datasets with more
+                     than 5000 instances. For bigger datasets please install and 
+                     use the [ChemPlot Python library.]
+                     (https://github.com/mcsorkun/ChemPlot)
+                     """)
         else:
-            data_target=data[column_target] 
-        data_expander = st.beta_expander("Explore the Dataset", expanded=False)
-        with data_expander:
-            st.dataframe(data)
-        
-        data_plot = st.beta_expander("Visualize the Chemical Space", expanded=True)
-        with data_plot:
-            # Check if there is a target if the similarity type is tailored
-            if len(data_target) == 0 and sim_type == 'tailored':
-                st.warning('Please select a target to use tailored similarity')
+            # Get data from dataframe
+            col_SMILES, col_target = st.beta_columns(2)
+            columns_values = ['There is no target'] + data.columns.tolist()
+            with col_SMILES:
+                column_SMILES = st.selectbox(
+                 'Which one is the SMILES column?',
+                 (data.columns))
+            with col_target:
+                column_target = st.selectbox(
+                 'Which one is the target column?',
+                 (columns_values))
+            data_SMILES=data[column_SMILES] 
+            if column_target == 'There is no target':
+                data_target=[]
             else:
-                time = running_time(len(data_SMILES), sim_type, dim_red_algo)
-                if random_state == -1:
-                    random_state = None
+                data_target=data[column_target] 
+            data_expander = st.beta_expander("Explore the Dataset", expanded=False)
+            with data_expander:
+                st.dataframe(data)
+            
+            data_plot = st.beta_expander("Visualize the Chemical Space", expanded=True)
+            with data_plot:
+                # Check if there is a target if the similarity type is tailored
+                if len(data_target) == 0 and sim_type == 'tailored':
+                    st.warning('Please select a target to use tailored similarity')
+                else:
+                    time = running_time(len(data_SMILES), sim_type, dim_red_algo)
+                    if random_state == -1:
+                        random_state = None
+                        
+                    #Initialize plot
+                    if 'new_plot' not in st.session_state:
+                        update_custom_plot()
                     
-                #Initialize plot
-                if 'new_plot' not in st.session_state:
-                    update_custom_plot()
-                
-                if st.session_state.new_plot:
-                    with st.spinner(f'Plotting your data in about {time} seconds'):  
-                        generate_custom_plot()
-        
-                st.bokeh_chart(st.session_state.custom_plot, use_container_width=True)
-                
-                html = file_html(st.session_state.custom_plot, CDN)
-                b64 = base64.b64encode(html.encode()).decode('utf-8')
-                btn_download = f'<a href="data:file/html;base64,{b64}" download="interactive_plot.html"><input type="button" value="Download Plot as HTML"></a>'
-                st.markdown(btn_download, unsafe_allow_html=True)
+                    if st.session_state.new_plot:
+                        with st.spinner(f'Plotting your data in about {time} seconds'):  
+                            generate_custom_plot()
+            
+                    st.bokeh_chart(st.session_state.custom_plot, use_container_width=True)
+                    
+                    html = file_html(st.session_state.custom_plot, CDN)
+                    b64 = base64.b64encode(html.encode()).decode('utf-8')
+                    btn_download = f'<a href="data:file/html;base64,{b64}" download="interactive_plot.html"><input type="button" value="Download Plot as HTML"></a>'
+                    st.markdown(btn_download, unsafe_allow_html=True)
     
 contacts = st.beta_expander("Contact", expanded=False)
 with contacts:
