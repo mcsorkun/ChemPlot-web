@@ -16,7 +16,7 @@ from chemplot import Plotter
 from bokeh.embed import file_html
 from bokeh.resources import CDN
 from google.oauth2 import service_account
-from shillelagh.backends.apsw.db import connect
+from gsheetsdb import connect
 
 ######################
 # Logos
@@ -89,14 +89,13 @@ credentials = service_account.Credentials.from_service_account_info(
         "https://www.googleapis.com/auth/spreadsheets",
     ],
 )
-conn = connect(credentials)
-curs = conn.cursor()
+conn = connect(credentials=credentials)
 
 # Perform SQL query on the Google Sheet.
 # Uses st.cache to only rerun when the query changes or after 10 min.
 @st.cache(ttl=600)
 def run_query(query):
-    curs.execute(query)
+    conn.execute(query, headers=1)
 
 sheet_url = st.secrets["private_gsheets_url"]
 query = f'INSERT INTO "{sheet_url}" (count) VALUES (1)'
