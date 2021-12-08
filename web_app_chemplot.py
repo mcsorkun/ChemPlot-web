@@ -15,6 +15,8 @@ import base64
 from chemplot import Plotter
 from bokeh.embed import file_html
 from bokeh.resources import CDN
+from google.oauth2 import service_account
+from shillelagh.backends.apsw.db import connect
 
 ######################
 # Logos
@@ -75,6 +77,30 @@ def running_time(n_samples, sim_type, dim_red_algo):
             return get_running_time(n_samples, PCA_STRU_COEF_2, PCA_STRU_COEF_1, PCA_STRU_INTERC)
         else:
             return get_running_time(n_samples, UMAP_STRU_COEF_2, UMAP_STRU_COEF_1, UMAP_STRU_INTERC)
+
+#########################
+# Spreadsheet functions
+#########################
+
+# Create a connection object.
+credentials = service_account.Credentials.from_service_account_info(
+    st.secrets["gcp_service_account"],
+    scopes=[
+        "https://www.googleapis.com/auth/spreadsheets",
+    ],
+)
+conn = connect(credentials=credentials)
+
+# Perform SQL query on the Google Sheet.
+# Uses st.cache to only rerun when the query changes or after 10 min.
+@st.cache(ttl=600)
+def run_query(query):
+    conn.execute(query)
+
+sheet_url = st.secrets["private_gsheets_url"]
+query = f'INSERT INTO "{sheet_url}" (count) VALUES ('1')'
+
+run_query(query)
 
 #########################
 # Session state functions
