@@ -98,7 +98,7 @@ def run_query(query):
     conn.execute(query)
 
 sheet_url = st.secrets["private_gsheets_url"]
-query = f'INSERT INTO "{sheet_url}" (count) VALUES ('1')'
+query = f'INSERT INTO "{sheet_url}" (count) VALUES (1)'
 
 run_query(query)
 
