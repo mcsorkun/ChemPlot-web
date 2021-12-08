@@ -11,12 +11,12 @@ import streamlit as st
 import streamlit.components.v1 as components
 import pandas as pd
 import base64
+import gspread
 
 from chemplot import Plotter
 from bokeh.embed import file_html
 from bokeh.resources import CDN
 from google.oauth2 import service_account
-from gsheetsdb import connect
 
 ######################
 # Logos
@@ -89,18 +89,11 @@ credentials = service_account.Credentials.from_service_account_info(
         "https://www.googleapis.com/auth/spreadsheets",
     ],
 )
-conn = connect(credentials=credentials)
+gc = gspread.authorize(credentials)
 
-# Perform SQL query on the Google Sheet.
-# Uses st.cache to only rerun when the query changes or after 10 min.
-@st.cache(ttl=600)
-def run_query(query):
-    conn.execute(query, headers=1)
-
-sheet_url = st.secrets["private_gsheets_url"]
-query = f'INSERT INTO "{sheet_url}" (count) VALUES (1)'
-
-run_query(query)
+sht = gc.open_by_url(st.secrets["private_gsheets_url"])
+worksheet = sht.get_worksheet(0)
+worksheet.append_row([1])
 
 #########################
 # Session state functions
