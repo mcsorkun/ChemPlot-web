@@ -89,13 +89,14 @@ credentials = service_account.Credentials.from_service_account_info(
         "https://www.googleapis.com/auth/spreadsheets",
     ],
 )
-conn = connect(credentials=credentials)
+conn = connect(credentials)
+curs = conn.cursor()
 
 # Perform SQL query on the Google Sheet.
 # Uses st.cache to only rerun when the query changes or after 10 min.
 @st.cache(ttl=600)
 def run_query(query):
-    conn.execute(query)
+    curs.execute(query)
 
 sheet_url = st.secrets["private_gsheets_url"]
 query = f'INSERT INTO "{sheet_url}" (count) VALUES (1)'
