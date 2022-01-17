@@ -8,4 +8,4 @@ dependencies:
     - streamlit
     - chemplot >=1.2.0
     - pandas
-    - bokeh
+    - bokeh <=2.4.1
