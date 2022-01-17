@@ -15,11 +15,11 @@ import base64
 from chemplot import Plotter
 from bokeh.embed import file_html
 from bokeh.resources import CDN
+from PIL import Image
 
 ######################
 # Logos
 ######################
-from PIL import Image
 tab_logo = Image.open("logo_mol.png")
 sidebar_logo = Image.open("chemplot_logo.png")
 
