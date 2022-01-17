@@ -1,7 +1,7 @@
 """
 Web Application for ChemPlot using Streamlit
 
-@author: Dajt Mullaj
+@author: Dajt Mullaj, Murat 
 """
 
 ######################
@@ -161,7 +161,7 @@ st.set_page_config(page_title="ChemPlot WebApplication", page_icon=tab_logo)
 
 st.write("""# ChemPlot: A Tool For Chemical Space Visualization""")
 
-about_expander = st.beta_expander("About ChemPlot", expanded=False)
+about_expander = st.expander("About ChemPlot", expanded=False)
 with about_expander:
     st.write('''
              ChemPlot is a python package that allows users to visualize the 
@@ -224,11 +224,11 @@ if dataset == 'Sample Dataset':
     else:
         data =  pd.read_csv("Sample_Plots/R_9982_AQSOLDB.csv")
         sample = 'AqSolDB'
-    data_expander = st.beta_expander("Explore the Dataset", expanded=False)
+    data_expander = st.expander("Explore the Dataset", expanded=False)
     with data_expander:
         st.dataframe(data)
             
-    data_plot = st.beta_expander("Visualize the Chemical Space", expanded=True)
+    data_plot = st.expander("Visualize the Chemical Space", expanded=True)
     with data_plot:
         #Initialize plot
         if 'plot_html' not in st.session_state:
@@ -239,7 +239,7 @@ if dataset == 'Sample Dataset':
         b64 = base64.b64encode(st.session_state.plot_html.encode()).decode('utf-8')
         btn_download = f'<a href="data:file/html;base64,{b64}" download="interactive_plot.html"><input type="button" value="Download Plot"></a>'
         st.markdown(btn_download, unsafe_allow_html=True) 
-    references = st.beta_expander("Sample Datasets Refereces", expanded=False)
+    references = st.expander("Sample Datasets Refereces", expanded=False)
     with references:
         st.write("""
                  [1] Martins, Ines Filipa, et al. [A Bayesian approach to in 
@@ -284,11 +284,11 @@ else:
                 data_target=[]
             else:
                 data_target=data[column_target] 
-            data_expander = st.beta_expander("Explore the Dataset", expanded=False)
+            data_expander = st.expander("Explore the Dataset", expanded=False)
             with data_expander:
                 st.dataframe(data)
             
-            data_plot = st.beta_expander("Visualize the Chemical Space", expanded=True)
+            data_plot = st.expander("Visualize the Chemical Space", expanded=True)
             with data_plot:
                 # Check if there is a target if the similarity type is tailored
                 if len(data_target) == 0 and sim_type == 'tailored':
@@ -313,7 +313,7 @@ else:
                     btn_download = f'<a href="data:file/html;base64,{b64}" download="interactive_plot.html"><input type="button" value="Download Plot as HTML"></a>'
                     st.markdown(btn_download, unsafe_allow_html=True)
     
-contacts = st.beta_expander("Contact", expanded=False)
+contacts = st.expander("Contact", expanded=False)
 with contacts:
     st.write('''
              #### Report an Issue 
