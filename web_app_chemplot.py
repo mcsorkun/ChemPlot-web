@@ -269,7 +269,7 @@ else:
                      """)
         else:
             # Get data from dataframe
-            col_SMILES, col_target = st.beta_columns(2)
+            col_SMILES, col_target = st.columns(2)
             columns_values = ['There is no target'] + data.columns.tolist()
             with col_SMILES:
                 column_SMILES = st.selectbox(
