@@ -10,13 +10,14 @@ Web Application for ChemPlot using Streamlit
 import streamlit as st
 import streamlit.components.v1 as components
 import pandas as pd
-import base64
 import gspread
+import time
 
 from chemplot import Plotter
 from bokeh.embed import file_html
 from bokeh.resources import CDN
 from PIL import Image
+from datetime import datetime
 from google.oauth2 import service_account
 
 ######################
@@ -92,11 +93,14 @@ credentials = service_account.Credentials.from_service_account_info(
 gc = gspread.authorize(credentials)
 sht = gc.open_by_url(st.secrets["private_gsheets_url"])
 worksheet = sht.get_worksheet(0)
+st.session_state.id = 0
 
 # Uses st.cache to only rerun when the query changes or after 10 min.
 @st.cache(ttl=600, show_spinner=False)
-def add_session_info():
-    worksheet.append_row([1])
+def add_session_info(plot, name, length, gen_t, sim, dim, p_type):
+    st.session_state.id += 1
+    now = datetime.now()
+    worksheet.append_row([st.session_state.id, now, plot, name, length, gen_t, sim, dim, p_type])
 
 #########################
 # Session state functions
@@ -246,9 +250,11 @@ if dataset == 'Sample Dataset':
     
     if sample == "BBBP (Blood-Brain Barrier Penetration) [1]":
         data =  pd.read_csv("Sample_Plots/C_2039_BBBP_2.csv")
+        length = 2039
         sample = 'BBBP'
     else:
         data =  pd.read_csv("Sample_Plots/R_9982_AQSOLDB.csv")
+        length = 9982
         sample = 'AqSolDB'
     data_expander = st.expander("Explore the Dataset", expanded=False)
     with data_expander:
@@ -261,10 +267,12 @@ if dataset == 'Sample Dataset':
         **Create Visualization** to generate the desired plot.
         ''')
         #Initialize plot
+        t1 = time.time()
         if 'plot_html' not in st.session_state:
             update_html_plot()
         
         components.html(st.session_state.plot_html, width=900, height=680)
+        t2 = time.time()
 
         st.sidebar.download_button(
             label="Download Plot",
@@ -272,6 +280,8 @@ if dataset == 'Sample Dataset':
             file_name='interactive_plot.html',
             mime='file/html',
         )
+
+        add_session_info('Sample', sample, length, int(t1 - t2), sim_type, dim_red_algo, plot_type)
 
     references = st.expander("Sample Datasets Refereces", expanded=False)
     with references:
@@ -290,9 +300,9 @@ if dataset == 'Sample Dataset':
 
 else:
     #Uploaded Dataset
-    uploaded_file = st.file_uploader("Upload a CSV file with your data")
+    uploaded_file = st.file_uploader("Upload a CSV file with your data", type='csv')
     if uploaded_file is not None:
-        data = pd.read_csv(uploaded_file)
+        data = pd.read_csv(uploaded_file, on_bad_lines='skip')
         # Check if dataset is too big
         if len(data) > 5000:
             st.error("""
@@ -301,6 +311,7 @@ else:
                      use the [ChemPlot Python library.]
                      (https://github.com/mcsorkun/ChemPlot)
                      """)
+            add_session_info('Custom', '', 5000, 0, '', '', '')
         else:
             # Get data from dataframe
             col_SMILES, col_target = st.columns(2)
@@ -338,7 +349,9 @@ else:
 
                     if st.session_state.new_plot:
                         with st.spinner(f'Plotting your data in about {time} seconds'):  
+                            t1 = time.time()
                             generate_custom_plot()
+                            t2 = time.time()
 
                     if 'custom_plot' in st.session_state:
                         st.bokeh_chart(st.session_state.custom_plot, use_container_width=True)
@@ -349,8 +362,9 @@ else:
                             file_name='interactive_plot.html',
                             mime='file/html',
                         )
-
-add_session_info()
+                    
+                    add_session_info('Custom', uploaded_file.name, len(data), 
+                        int(t1 - t2), sim_type, dim_red_algo, plot_type)
     
 contacts = st.expander("Contact", expanded=False)
 with contacts:
