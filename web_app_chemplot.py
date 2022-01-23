@@ -327,9 +327,9 @@ else:
                     time = running_time(len(data_SMILES), sim_type, dim_red_algo)
                     if random_state == -1:
                         random_state = None
-                    
+                    print('1')
                     if st.session_state.new_plot:
-                        print('1')
+                        print('2')
                         with st.spinner(f'Plotting your data in about {time} seconds'):  
                             generate_custom_plot()
                         st.bokeh_chart(st.session_state.custom_plot, use_container_width=True)
