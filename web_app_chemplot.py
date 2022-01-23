@@ -229,10 +229,6 @@ if dataset == 'Upload Dataset':
     rem_out = st.sidebar.checkbox("Do you want to remove outliers?")
     random_state = st.sidebar.number_input("Enter the random state (-1 for None)", min_value=-1, step=1)
 
-create_viz = st.sidebar.button('Create Visualization', 
-                               help='Generate visualization with the current parameters.',
-                               on_click=update_plot)
-
 ######################
 # Input Data
 ######################
@@ -255,6 +251,9 @@ if dataset == 'Sample Dataset':
             
     data_plot = st.expander("Visualize the Chemical Space", expanded=True)
     with data_plot:
+        create_viz = st.button('Create Visualization', 
+                               help='Generate visualization with the current parameters.',
+                               on_click=update_plot)
         #Initialize plot
         if 'plot_html' not in st.session_state:
             update_html_plot()
@@ -264,6 +263,7 @@ if dataset == 'Sample Dataset':
         b64 = base64.b64encode(st.session_state.plot_html.encode()).decode('utf-8')
         btn_download = f'<a href="data:file/html;base64,{b64}" download="interactive_plot.html"><input type="button" value="Download Plot"></a>'
         st.markdown(btn_download, unsafe_allow_html=True) 
+
     references = st.expander("Sample Datasets Refereces", expanded=False)
     with references:
         st.write("""
@@ -315,6 +315,9 @@ else:
             
             data_plot = st.expander("Visualize the Chemical Space", expanded=True)
             with data_plot:
+                create_viz = st.button('Create Visualization', 
+                               help='Generate visualization with the current parameters.',
+                               on_click=update_plot)
                 # Check if there is a target if the similarity type is tailored
                 if len(data_target) == 0 and sim_type == 'tailored':
                     st.warning('Please select a target to use tailored similarity')
