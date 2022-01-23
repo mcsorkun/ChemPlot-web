@@ -8,6 +8,7 @@ dependencies:
     - pip
     - pip:
         - streamlit
-        - bokeh==2.2.3
+        - bokeh==2.4.1
+        - pandas
         - gspread==5.0.0
         - google-auth==2.3.3
