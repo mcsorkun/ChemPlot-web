@@ -5,9 +5,9 @@ channels:
 dependencies:
     - libgcc
     - streamlit
-    - chemplot >=1.2.0
+    - chemplot>=1.2.0
     - pandas
-    - bokeh <=2.4.1
+    - bokeh==2.4.1
     - pip
     - pip:
         - gspread==5.0.0
