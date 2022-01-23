@@ -325,11 +325,12 @@ else:
                     time = running_time(len(data_SMILES), sim_type, dim_red_algo)
                     if random_state == -1:
                         random_state = None
-                    st.write('1')
+
                     if st.session_state.new_plot:
-                        st.write('2')
                         with st.spinner(f'Plotting your data in about {time} seconds'):  
                             generate_custom_plot()
+                            
+                    if 'plot_html' in st.custom_plot:
                         st.bokeh_chart(st.session_state.custom_plot, use_container_width=True)
                         html = file_html(st.session_state.custom_plot, CDN)
                         b64 = base64.b64encode(html.encode()).decode('utf-8')
