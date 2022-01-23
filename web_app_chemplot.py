@@ -93,12 +93,14 @@ credentials = service_account.Credentials.from_service_account_info(
 gc = gspread.authorize(credentials)
 sht = gc.open_by_url(st.secrets["private_gsheets_url"])
 worksheet = sht.get_worksheet(0)
-st.session_state.id = 0
 
 # Uses st.cache to only rerun when the query changes or after 10 min.
 @st.cache(ttl=600, show_spinner=False)
 def add_session_info(plot, name, length, gen_t, sim, dim, p_type):
-    st.session_state.id += 1
+    if 'id' in st.session_state:
+        st.session_state.id += 1
+    else:
+        st.session_state.id = 0
     now = datetime.now()
     worksheet.append_row([st.session_state.id])
     #now, plot, name, length, gen_t, sim, dim, p_type])
