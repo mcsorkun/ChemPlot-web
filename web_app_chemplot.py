@@ -94,7 +94,7 @@ sht = gc.open_by_url(st.secrets["private_gsheets_url"])
 worksheet = sht.get_worksheet(0)
 
 # Uses st.cache to only rerun when the query changes or after 10 min.
-@st.cache(ttl=600)
+@st.cache(ttl=600, suppress_st_warning=True)
 def add_session_info():
     worksheet.append_row([1])
 
@@ -107,7 +107,7 @@ def update_plot():
         update_html_plot()
     else:
         update_custom_plot()
-        
+
 def update_html_plot():
     if sample == "BBBP" and sim_type == "tailored" and dim_red_algo == "t-SNE" and plot_type == "scatter":
         HtmlFile = open("Sample_Plots/BBBP_t_s_s.html", 'r', encoding='utf-8')
@@ -164,7 +164,7 @@ def update_html_plot():
 def update_custom_plot():
     st.session_state.new_plot = True
 
-@st.cache
+@st.cache(suppress_st_warning=True)
 def generate_custom_plot():
     cp = Plotter.from_smiles(data_SMILES, target=data_target, sim_type=sim_type)
     if dim_red_algo=='PCA':
@@ -235,6 +235,7 @@ create_viz = st.sidebar.button('Create Visualization',
 ######################
 
 if dataset == 'Sample Dataset':
+    st.session_state.new_plot = False
     #Example Dataset
     sample = st.selectbox(
     'Choose an Sample Dataset',
@@ -356,10 +357,7 @@ with contacts:
              - [Murat Cihan Sorkun] (mailto:mcsorkun@gmail.com)
              - [Dajt Mullaj] (mailto:dajt.mullai@gmail.com)
              ''')
-
-# Initialize with not plotting
-st.session_state.new_plot = False
-
+             
           
 
 
