@@ -318,7 +318,7 @@ else:
             with data_expander:
                 st.dataframe(data)
             
-            data_plot = st.expander("""#Visualize the Chemical Space""", expanded=True)
+            data_plot = st.expander('Visualize the Chemical Space', expanded=True)
             with data_plot:
                 st.write(''' 
                 Select the visualization parameters from the sidebar and click on
