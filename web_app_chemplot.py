@@ -95,7 +95,6 @@ sht = gc.open_by_url(st.secrets["private_gsheets_url"])
 worksheet = sht.get_worksheet(0)
 
 # Uses st.cache to only rerun when the query changes or after 10 min.
-@st.cache(ttl=600, show_spinner=False)
 def add_session_info(plot, name, length, gen_t, sim, dim, p_type):
     if 'id' in st.session_state:
         st.session_state.id += 1
