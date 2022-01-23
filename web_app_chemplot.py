@@ -257,14 +257,13 @@ if dataset == 'Sample Dataset':
             update_html_plot()
         
         components.html(st.session_state.plot_html, width=900, height=680)
-        
-        with open(st.session_state.plot_html, "rb") as f:
-            st.sidebar.download_button(
-                label="Download Plot",
-                data=f,
-                file_name='interactive_plot.html',
-                mime='file/html',
-            )
+
+        st.sidebar.download_button(
+            label="Download Plot",
+            data=st.session_state.plot_html,
+            file_name='interactive_plot.html',
+            mime='file/html',
+        )
 
     references = st.expander("Sample Datasets Refereces", expanded=False)
     with references:
