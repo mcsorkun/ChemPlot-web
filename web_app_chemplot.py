@@ -177,9 +177,6 @@ def generate_custom_plot():
     st.session_state.custom_plot = cp.interactive_plot(kind=plot_type,remove_outliers=rem_out)
     st.session_state.new_plot = False
 
-# Initialize with not plotting
-st.session_state.new_plot = False
-
 ######################
 # Page Title
 ######################
@@ -359,6 +356,9 @@ with contacts:
              - [Murat Cihan Sorkun] (mailto:mcsorkun@gmail.com)
              - [Dajt Mullaj] (mailto:dajt.mullai@gmail.com)
              ''')
+
+# Initialize with not plotting
+st.session_state.new_plot = False
 
           
 
