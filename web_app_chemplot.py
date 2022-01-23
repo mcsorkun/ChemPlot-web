@@ -335,6 +335,8 @@ else:
                     b64 = base64.b64encode(html.encode()).decode('utf-8')
                     btn_download = f'<a href="data:file/html;base64,{b64}" download="interactive_plot.html"><input type="button" value="Download Plot as HTML"></a>'
                     st.markdown(btn_download, unsafe_allow_html=True)
+
+add_session_info()
     
 contacts = st.expander("Contact", expanded=False)
 with contacts:
