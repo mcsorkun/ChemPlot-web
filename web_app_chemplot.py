@@ -96,7 +96,7 @@ worksheet = sht.get_worksheet(0)
 # Perform query on the Google Sheet.
 # Uses st.cache to only rerun when the query changes or after 10 min.
 @st.cache(ttl=600)
-def add_session_info(info):
+def add_session_info():
     worksheet.append_row([1])
 
 #########################
