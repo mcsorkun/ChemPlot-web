@@ -9,3 +9,8 @@ dependencies:
     - chemplot >=1.2.0
     - pandas
     - bokeh <=2.4.1
+    - pip
+    - pip:
+        - gspread==5.0.0
+        - google-auth==2.3.3
+
