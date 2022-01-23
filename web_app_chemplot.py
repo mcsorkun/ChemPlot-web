@@ -252,6 +252,10 @@ if dataset == 'Sample Dataset':
             
     data_plot = st.expander("Visualize the Chemical Space", expanded=True)
     with data_plot:
+        st.write(''' 
+        Select the visualization parameters from the sidebar and click on
+        **Create Visualization** to generate the desired plot.
+        ''')
         #Initialize plot
         if 'plot_html' not in st.session_state:
             update_html_plot()
@@ -314,8 +318,12 @@ else:
             with data_expander:
                 st.dataframe(data)
             
-            data_plot = st.expander("Visualize the Chemical Space", expanded=True)
+            data_plot = st.expander("# Visualize the Chemical Space", expanded=True)
             with data_plot:
+                st.write(''' 
+                Select the visualization parameters from the sidebar and click on
+                **Create Visualization** to generate the desired plot.
+                ''')
                 # Check if there is a target if the similarity type is tailored
                 if len(data_target) == 0 and sim_type == 'tailored':
                     st.warning('Please select a target to use tailored similarity')
