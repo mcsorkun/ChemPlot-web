@@ -262,7 +262,10 @@ if dataset == 'Sample Dataset':
         
         components.html(st.session_state.plot_html, width=900, height=680)
 
-        st.sidebar.download_button(
+        st.sidebar.download_buttost.write(''' 
+        Select the visualization parameters from the sidebar and click on
+        **Create Visualization** to generate the desired plot.
+        ''')n(
             label="Download Plot",
             data=st.session_state.plot_html,
             file_name='interactive_plot.html',
@@ -318,7 +321,7 @@ else:
             with data_expander:
                 st.dataframe(data)
             
-            data_plot = st.expander("# Visualize the Chemical Space", expanded=True)
+            data_plot = st.expander("""#Visualize the Chemical Space""", expanded=True)
             with data_plot:
                 st.write(''' 
                 Select the visualization parameters from the sidebar and click on
