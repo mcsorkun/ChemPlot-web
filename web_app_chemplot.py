@@ -193,8 +193,12 @@ with about_expander:
              parameters ChemPlot will use when generating a visualization. 
              
              If you are intrested in a more detailed explanation about ChemPlot
-             and in the theory behind the library please visit the official 
-             documentation at [Read the docs](https://chemplot.readthedocs.io/en/latest/).
+             please visit the official library's documentation at 
+             [Read the docs](https://chemplot.readthedocs.io/en/latest/).
+
+             You can read about the theoretical background on ChemPlot in our 
+             paper. You can find our paper at the following link: 
+             [Paper](https://chemrxiv.org/engage/chemrxiv/article-details/617180aaff3ba991f99af550).
              ''', unsafe_allow_html=False)
              
 st.write('**Select the Dataset**') 
