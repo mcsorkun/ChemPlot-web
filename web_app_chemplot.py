@@ -93,7 +93,6 @@ gc = gspread.authorize(credentials)
 sht = gc.open_by_url(st.secrets["private_gsheets_url"])
 worksheet = sht.get_worksheet(0)
 
-# Perform query on the Google Sheet.
 # Uses st.cache to only rerun when the query changes or after 10 min.
 @st.cache(ttl=600)
 def add_session_info():
@@ -176,7 +175,10 @@ def generate_custom_plot():
     
     st.session_state.custom_plot = cp.interactive_plot(kind=plot_type,remove_outliers=rem_out)
     st.session_state.new_plot = False
-                    
+
+# Initialize with not plotting
+st.session_state.new_plot = False
+
 ######################
 # Page Title
 ######################
