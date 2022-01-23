@@ -258,10 +258,10 @@ if dataset == 'Sample Dataset':
         
         components.html(st.session_state.plot_html, width=900, height=680)
         
-        b64 = base64.b64encode(st.session_state.plot_html.encode()).decode('utf-8')
+        st.session_state.b64 = base64.b64encode(st.session_state.plot_html.encode()).decode('utf-8')
         st.sidebar.download_button(
             label="Download Plot",
-            data=b64,
+            data=st.session_state.b64,
             file_name='interactive_plot.html',
             mime='file/html',
         )
@@ -332,10 +332,10 @@ else:
                     if 'custom_plot' in st.session_state:
                         st.bokeh_chart(st.session_state.custom_plot, use_container_width=True)
                         html = file_html(st.session_state.custom_plot, CDN)
-                        b64 = base64.b64encode(html.encode()).decode('utf-8')
+                        st.session_state.b64 = base64.b64encode(html.encode()).decode('utf-8')
                         st.sidebar.download_button(
                             label="Download Plot",
-                            data=b64,
+                            data=st.session_state.b64,
                             file_name='interactive_plot.html',
                             mime='file/html',
                         )
