@@ -1,7 +1,6 @@
 name: chemplot_web_app
 channels:
 - conda-forge
-- chemplot
 - defaults
 dependencies:
     - libgcc
