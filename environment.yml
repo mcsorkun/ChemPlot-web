@@ -4,7 +4,6 @@ channels:
 - defaults
 dependencies:
     - libgcc=5.2.0
-    - rdkit
     - chemplot==1.2.0
     - pip
     - pip:
