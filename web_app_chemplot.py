@@ -163,7 +163,8 @@ def update_html_plot():
     
 def update_custom_plot():
     st.session_state.new_plot = True
-    
+
+@st.cache
 def generate_custom_plot():
     cp = Plotter.from_smiles(data_SMILES, target=data_target, sim_type=sim_type)
     if dim_red_algo=='PCA':
@@ -262,7 +263,13 @@ if dataset == 'Sample Dataset':
         
         b64 = base64.b64encode(st.session_state.plot_html.encode()).decode('utf-8')
         btn_download = f'<a href="data:file/html;base64,{b64}" download="interactive_plot.html"><input type="button" value="Download Plot"></a>'
-        st.markdown(btn_download, unsafe_allow_html=True) 
+        #st.markdown(btn_download, unsafe_allow_html=True) 
+        st.download_button(
+            label="Download Plot",
+            data=b64,
+            file_name='interactive_plot.html',
+            mime='file/html',
+        )
 
     references = st.expander("Sample Datasets Refereces", expanded=False)
     with references:
