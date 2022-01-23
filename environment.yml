@@ -10,5 +10,5 @@ dependencies:
     - bokeh <=2.4.1
     - pip
     - pip:
-        - gspread
-        - google-auth
+        - gspread==5.0.0
+        - google-auth==2.3.3

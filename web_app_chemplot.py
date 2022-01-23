@@ -91,7 +91,7 @@ credentials = service_account.Credentials.from_service_account_info(
 )
 gc = gspread.authorize(credentials)
 sht = gc.open_by_url(st.secrets["private_gsheets_url"])
-worksheet = sht.get_worksheet(1)
+worksheet = sht.get_worksheet(0)
 
 # Perform query on the Google Sheet.
 # Uses st.cache to only rerun when the query changes or after 10 min.
