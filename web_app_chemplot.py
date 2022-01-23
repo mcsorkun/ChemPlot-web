@@ -329,6 +329,7 @@ else:
                         random_state = None
                     
                     if st.session_state.new_plot:
+                        print('1')
                         with st.spinner(f'Plotting your data in about {time} seconds'):  
                             generate_custom_plot()
                         st.bokeh_chart(st.session_state.custom_plot, use_container_width=True)
