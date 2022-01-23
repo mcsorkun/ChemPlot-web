@@ -332,13 +332,12 @@ else:
                     if 'custom_plot' in st.session_state:
                         st.bokeh_chart(st.session_state.custom_plot, use_container_width=True)
                         html = file_html(st.session_state.custom_plot, CDN)
-                        with open(html, "rb") as f:
-                            st.sidebar.download_button(
-                                label="Download Plot",
-                                data=f,
-                                file_name='interactive_plot.html',
-                                mime='file/html',
-                            )
+                        st.sidebar.download_button(
+                            label="Download Plot",
+                            data=html,
+                            file_name='interactive_plot.html',
+                            mime='file/html',
+                        )
 
 add_session_info()
     
