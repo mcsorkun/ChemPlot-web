@@ -94,7 +94,7 @@ sht = gc.open_by_url(st.secrets["private_gsheets_url"])
 worksheet = sht.get_worksheet(0)
 
 # Uses st.cache to only rerun when the query changes or after 10 min.
-@st.cache(ttl=600, suppress_st_warning=True)
+@st.cache(ttl=600, show_spinner=False)
 def add_session_info():
     worksheet.append_row([1])
 
@@ -164,7 +164,7 @@ def update_html_plot():
 def update_custom_plot():
     st.session_state.new_plot = True
 
-@st.cache(suppress_st_warning=True)
+@st.cache(show_spinner=False)
 def generate_custom_plot():
     cp = Plotter.from_smiles(data_SMILES, target=data_target, sim_type=sim_type)
     if dim_red_algo=='PCA':
