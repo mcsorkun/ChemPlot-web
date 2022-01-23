@@ -230,6 +230,9 @@ if dataset == 'Upload Dataset':
     rem_out = st.sidebar.checkbox("Do you want to remove outliers?")
     random_state = st.sidebar.number_input("Enter the random state (-1 for None)", min_value=-1, step=1)
 
+create_viz = st.sidebar.button('Create Visualization', 
+                help='Generate visualization with the current parameters.',
+                on_click=update_plot)
 ######################
 # Input Data
 ######################
@@ -252,9 +255,6 @@ if dataset == 'Sample Dataset':
             
     data_plot = st.expander("Visualize the Chemical Space", expanded=True)
     with data_plot:
-        create_viz = st.button('Create Visualization', 
-                               help='Generate visualization with the current parameters.',
-                               on_click=update_plot)
         #Initialize plot
         if 'plot_html' not in st.session_state:
             update_html_plot()
@@ -262,7 +262,7 @@ if dataset == 'Sample Dataset':
         components.html(st.session_state.plot_html, width=900, height=680)
         
         b64 = base64.b64encode(st.session_state.plot_html.encode()).decode('utf-8')
-        st.download_button(
+        st.sidebar.download_button(
             label="Download Plot",
             data=b64,
             file_name='interactive_plot.html',
@@ -320,9 +320,6 @@ else:
             
             data_plot = st.expander("Visualize the Chemical Space", expanded=True)
             with data_plot:
-                create_viz = st.button('Create Visualization', 
-                               help='Generate visualization with the current parameters.',
-                               on_click=update_plot)
                 # Check if there is a target if the similarity type is tailored
                 if len(data_target) == 0 and sim_type == 'tailored':
                     st.warning('Please select a target to use tailored similarity')
@@ -337,7 +334,7 @@ else:
                         st.bokeh_chart(st.session_state.custom_plot, use_container_width=True)
                         html = file_html(st.session_state.custom_plot, CDN)
                         b64 = base64.b64encode(html.encode()).decode('utf-8')
-                        st.download_button(
+                        st.sidebar.download_button(
                             label="Download Plot",
                             data=b64,
                             file_name='interactive_plot.html',
