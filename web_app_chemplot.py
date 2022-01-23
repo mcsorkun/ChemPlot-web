@@ -186,7 +186,7 @@ st.set_page_config(page_title="ChemPlot WebApplication", page_icon=tab_logo)
 
 st.write("""# ChemPlot: A Tool For Chemical Space Visualization""")
 
-about_expander = st.expander("About ChemPlot", expanded=False)
+about_expander = st.expander("About ChemPlot", expanded=True)
 with about_expander:
     st.write('''
              ChemPlot is a python package that allows users to visualize the 
@@ -322,21 +322,15 @@ else:
                     time = running_time(len(data_SMILES), sim_type, dim_red_algo)
                     if random_state == -1:
                         random_state = None
-                        
-                    #Initialize plot
-                    if 'new_plot' not in st.session_state:
-                        update_custom_plot()
                     
                     if st.session_state.new_plot:
                         with st.spinner(f'Plotting your data in about {time} seconds'):  
                             generate_custom_plot()
-            
-                    st.bokeh_chart(st.session_state.custom_plot, use_container_width=True)
-                    
-                    html = file_html(st.session_state.custom_plot, CDN)
-                    b64 = base64.b64encode(html.encode()).decode('utf-8')
-                    btn_download = f'<a href="data:file/html;base64,{b64}" download="interactive_plot.html"><input type="button" value="Download Plot as HTML"></a>'
-                    st.markdown(btn_download, unsafe_allow_html=True)
+                        st.bokeh_chart(st.session_state.custom_plot, use_container_width=True)
+                        html = file_html(st.session_state.custom_plot, CDN)
+                        b64 = base64.b64encode(html.encode()).decode('utf-8')
+                        btn_download = f'<a href="data:file/html;base64,{b64}" download="interactive_plot.html"><input type="button" value="Download Plot as HTML"></a>'
+                        st.markdown(btn_download, unsafe_allow_html=True)
 
 add_session_info()
     
