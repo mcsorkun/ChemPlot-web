@@ -1,11 +1,16 @@
+name: aqsolpred
 channels:
 - conda-forge
 - defaults
 dependencies:
-    - libgcc
-    - streamlit
-    - chemplot==1.2.0
-    - pandas
-    - bokeh==2.4.1
-    - gspread
-    - oauth2client
+    - libgcc=5.2.0
+    - rdkit
+    - pip
+    - pip:
+        - streamlit==0.84.0
+        - chemplot==1.1.1
+        - pandas==1.1.3
+        - bokeh==2.2.3
+        - gsheetsdb==0.1.10
+        - gspread==5.0.0
+        - google-auth==2.3.3
