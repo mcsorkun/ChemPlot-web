@@ -164,7 +164,6 @@ def update_html_plot():
 def update_custom_plot():
     st.session_state.new_plot = True
 
-@st.cache(show_spinner=False)
 def generate_custom_plot():
     cp = Plotter.from_smiles(data_SMILES, target=data_target, sim_type=sim_type)
     if dim_red_algo=='PCA':
