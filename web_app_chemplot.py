@@ -332,7 +332,7 @@ else:
                     if 'custom_plot' in st.session_state:
                         st.bokeh_chart(st.session_state.custom_plot, use_container_width=True)
                         html = file_html(st.session_state.custom_plot, CDN)
-                        b64 = base64.b64encode(html.encode()).decode('utf-8')
+                        b64 = base64.b64encode(html.encode())
                         st.sidebar.download_button(
                             label="Download Plot",
                             data=b64,
