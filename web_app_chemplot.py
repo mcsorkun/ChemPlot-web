@@ -16,6 +16,7 @@ from chemplot import Plotter
 from bokeh.embed import file_html
 from bokeh.resources import CDN
 from PIL import Image
+from google.oauth2 import service_account
 
 ######################
 # Logos
@@ -75,6 +76,27 @@ def running_time(n_samples, sim_type, dim_red_algo):
             return get_running_time(n_samples, PCA_STRU_COEF_2, PCA_STRU_COEF_1, PCA_STRU_INTERC)
         else:
             return get_running_time(n_samples, UMAP_STRU_COEF_2, UMAP_STRU_COEF_1, UMAP_STRU_INTERC)
+
+#########################
+# Spreadsheet functions
+#########################
+
+# Create a connection object.
+credentials = service_account.Credentials.from_service_account_info(
+    st.secrets["gcp_service_account"],
+    scopes=[
+        "https://www.googleapis.com/auth/spreadsheets",
+    ],
+)
+gc = gspread.authorize(credentials)
+sht = gc.open_by_url(st.secrets["private_gsheets_url"])
+worksheet = sht.get_worksheet(1)
+
+# Perform query on the Google Sheet.
+# Uses st.cache to only rerun when the query changes or after 10 min.
+#@st.cache(ttl=600)
+#def run_query():
+worksheet.append_row([1])
 
 #########################
 # Session state functions
