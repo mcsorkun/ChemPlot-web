@@ -237,19 +237,25 @@ st.sidebar.write('**Visualization Parameters**')
 
 sim_type = st.sidebar.radio(
      "Which similarity type do you want to use?",
-     ('tailored', 'structural'))
+     ('tailored', 'structural'),
+     help='Use tailored when you have a target value. Use structural to plot your molecules based on structure only.')
 
 dim_red_algo = st.sidebar.radio(
      "Which algorithm you want to use?",
-     ('t-SNE', 'PCA', 'UMAP'))
+     ('t-SNE', 'PCA', 'UMAP'),
+     help='t-SNE and UMAP are non linear resulting in better clusters. PCA is linear resulting in a more global view.')
  
 plot_type = st.sidebar.radio(
      "Which plot type do you want to display?",
-     ('scatter', 'hex'))
+     ('scatter', 'hex'),
+     help='Visualize a scatter plot or an hexagonal plot.')
 
 if dataset == 'Upload Dataset':
-    rem_out = st.sidebar.checkbox("Do you want to remove outliers?")
-    random_state = st.sidebar.number_input("Enter the random state (-1 for None)", min_value=-1, step=1)
+    rem_out = st.sidebar.checkbox("Do you want to remove outliers?",
+    help='Remove the outliers from the plot.')
+
+    random_state = st.sidebar.number_input("Enter the random state (-1 for None)", min_value=-1, step=1,
+    help='Add a random state greater or equal to 0 for reproducible results.')
 
 create_viz = st.sidebar.button('Create Visualization', 
                 help='Generate visualization with the current parameters.',
