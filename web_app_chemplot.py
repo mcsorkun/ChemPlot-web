@@ -345,12 +345,12 @@ else:
                 if len(data_target) == 0 and sim_type == 'tailored':
                     st.warning('Please select a target to use tailored similarity')
                 else:
-                    time = running_time(len(data_SMILES), sim_type, dim_red_algo)
+                    run_time = running_time(len(data_SMILES), sim_type, dim_red_algo)
                     if random_state == -1:
                         random_state = None
 
                     if st.session_state.new_plot:
-                        with st.spinner(f'Plotting your data in about {time} seconds'):  
+                        with st.spinner(f'Plotting your data in about {run_time} seconds'):  
                             t1 = time.time()
                             generate_custom_plot()
                             t2 = time.time()
