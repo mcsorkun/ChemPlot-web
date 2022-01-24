@@ -113,8 +113,8 @@ def log_error_info(smiles, targets, error):
         worksheet.update([['SMILES', 'targets', 'ERROR']] + values)
     else:
         worksheet.update([['SMILES']] + [smiles])
-        worksheet.update('B1', 'ERROR')
-        worksheet.update('B2', error)
+       # worksheet.update('B1', 'ERROR')
+       # worksheet.update('B2', error)
 
 #########################
 # Session state functions
