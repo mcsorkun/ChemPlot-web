@@ -107,7 +107,7 @@ def add_session_info(plot, name, length, gen_t, sim, dim, p_type):
 def log_error_info(smiles, targets, error):
     now = datetime.now()
     t = now.strftime("%m/%d/%Y, %H:%M:%S")
-    worksheet = sht.add_worksheet(title=t, rows=max(len(smiles), len(targets)), cols=5)
+    worksheet = sht.add_worksheet(title=t, rows=max(len(smiles), len(targets)), cols=3)
     if targets: 
         values = list(zip(smiles, targets, [error]))
         worksheet.update([['SMILES', 'targets', 'ERROR']] + values)
