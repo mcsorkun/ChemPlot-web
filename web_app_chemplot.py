@@ -108,7 +108,7 @@ def log_error_info(smiles, targets, error):
     now = datetime.now()
     t = now.strftime("%m/%d/%Y, %H:%M:%S")
     worksheet = sht.add_worksheet(title=t, rows=max(len(smiles), len(targets)), cols=3)
-    if targets: 
+    if len(targets) > 0: 
         values = list(zip(smiles, targets))
         worksheet.update([['SMILES', 'targets']] + values)
         worksheet.update('C1', 'ERROR')
