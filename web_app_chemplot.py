@@ -92,7 +92,7 @@ credentials = service_account.Credentials.from_service_account_info(
 )
 gc = gspread.authorize(credentials)
 sht = gc.open_by_url(st.secrets["private_gsheets_url"])
-worksheet = sht.get_worksheet(0)
+worksheet = sht.worksheet("Logs")
 
 # Uses st.cache to only rerun when the query changes or after 10 min.
 def add_session_info(plot, name, length, gen_t, sim, dim, p_type):
@@ -103,6 +103,17 @@ def add_session_info(plot, name, length, gen_t, sim, dim, p_type):
     now = datetime.now()
     t = now.strftime("%m/%d/%Y, %H:%M:%S")
     worksheet.append_row([st.session_state.id, t, plot, name, length, gen_t, sim, dim, p_type])
+
+def log_error_info(smiles, targets, error):
+    now = datetime.now()
+    t = now.strftime("%m/%d/%Y, %H:%M:%S")
+    worksheet = sht.add_worksheet(title=t, rows=max(len(smiles), len(targets)), cols=5)
+    if targets: 
+        values = list(zip(smiles, targets, [error]))
+        worksheet.update([['SMILES', 'targets', 'ERROR']] + values)
+    else:
+        values = list(zip(smiles, [error]))
+        worksheet.update([['SMILES', 'ERROR']] + values)
 
 #########################
 # Session state functions
@@ -357,12 +368,14 @@ else:
                                 t2 = time.time()
                             except Exception as error:
                                 add_session_info('Custom', 'ERROR_CHEMPLOT', len(data), 0, '', '', '')
+                                log_error_info(data_SMILES, data_target, error)
                                 st.error("""
                                 Invalid input data. 
                                 Check if you selected the correct
                                 column names for **SMILES** and **target**. If so 
                                 your data might be corrupted.
                                 """)
+                                st.session_state.pop('custom_plot', None)
                             
 
                     if 'custom_plot' in st.session_state:
