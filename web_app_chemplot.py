@@ -360,22 +360,23 @@ else:
                     if random_state == -1:
                         random_state = None
 
-                    if st.session_state.new_plot:
-                        with st.spinner(f'Plotting your data in about {run_time} seconds'):  
-                            try:
-                                t1 = time.time()
-                                generate_custom_plot()
-                                t2 = time.time()
-                            except Exception as error:
-                                add_session_info('Custom', 'ERROR_CHEMPLOT', len(data), 0, '', '', '')
-                                log_error_info(data_SMILES, data_target, error)
-                                st.error("""
-                                Invalid input data. 
-                                Check if you selected the correct
-                                column names for **SMILES** and **target**. If so 
-                                your data might be corrupted.
-                                """)
-                                st.session_state.pop('custom_plot', None)
+                    if 'new_plot' in st.session_state:
+                        if st.session_state.new_plot:
+                            with st.spinner(f'Plotting your data in about {run_time} seconds'):  
+                                try:
+                                    t1 = time.time()
+                                    generate_custom_plot()
+                                    t2 = time.time()
+                                except Exception as error:
+                                    add_session_info('Custom', 'ERROR_CHEMPLOT', len(data), 0, '', '', '')
+                                    log_error_info(data_SMILES, data_target, error)
+                                    st.error("""
+                                    Invalid input data. 
+                                    Check if you selected the correct
+                                    column names for **SMILES** and **target**. If so 
+                                    your data might be corrupted.
+                                    """)
+                                    st.session_state.pop('custom_plot', None)
                             
 
                     if 'custom_plot' in st.session_state:
