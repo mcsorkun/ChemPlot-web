@@ -369,7 +369,7 @@ else:
                                     t2 = time.time()
                                 except Exception as error:
                                     add_session_info('Custom', 'ERROR_CHEMPLOT', len(data), 0, '', '', '')
-                                    log_error_info(data_SMILES, data_target, error)
+                                    log_error_info(data_SMILES, data_target, str(error))
                                     st.error("""
                                     Invalid input data. 
                                     Check if you selected the correct
