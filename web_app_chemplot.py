@@ -283,7 +283,7 @@ if dataset == 'Sample Dataset':
             mime='file/html',
         )
 
-        add_session_info('Sample', sample, length, int(t1 - t2), sim_type, dim_red_algo, plot_type)
+        add_session_info('Sample', sample, length, int(t2 - t1), sim_type, dim_red_algo, plot_type)
 
     references = st.expander("Sample Datasets Refereces", expanded=False)
     with references:
@@ -366,7 +366,7 @@ else:
                         )
                     
                         add_session_info('Custom', uploaded_file.name, len(data), 
-                            int(t1 - t2), sim_type, dim_red_algo, plot_type)
+                            int(t2 - t1), sim_type, dim_red_algo, plot_type)
     
 contacts = st.expander("Contact", expanded=False)
 with contacts:
