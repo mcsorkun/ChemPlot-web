@@ -112,7 +112,8 @@ def log_error_info(smiles, targets, error):
         values = list(zip(smiles, targets, [error]))
         worksheet.update([['SMILES', 'targets', 'ERROR']] + values)
     else:
-        worksheet.update(['SMILES'] + smiles)
+        values = list(zip(smiles))
+        worksheet.update(['SMILES'] + values)
        # worksheet.update('B1', 'ERROR')
        # worksheet.update('B2', error)
 
