@@ -365,8 +365,8 @@ else:
                             mime='file/html',
                         )
                     
-                    add_session_info('Custom', uploaded_file.name, len(data), 
-                        int(t1 - t2), sim_type, dim_red_algo, plot_type)
+                        add_session_info('Custom', uploaded_file.name, len(data), 
+                            int(t1 - t2), sim_type, dim_red_algo, plot_type)
     
 contacts = st.expander("Contact", expanded=False)
 with contacts:
