@@ -102,7 +102,7 @@ def add_session_info(plot, name, length, gen_t, sim, dim, p_type):
         st.session_state.id = 0
     now = datetime.now()
     t = now.strftime("%m/%d/%Y, %H:%M:%S")
-    worksheet.append_row([st.session_state.id, t, plot, name, length, str(gen_t), sim, dim, p_type])
+    worksheet.append_row([st.session_state.id, t, plot, name, length, gen_t, sim, dim, p_type])
 
 #########################
 # Session state functions
@@ -313,7 +313,7 @@ else:
                      use the [ChemPlot Python library.]
                      (https://github.com/mcsorkun/ChemPlot)
                      """)
-            add_session_info('Custom', '', 5000, 0, '', '', '')
+            add_session_info('Custom', 'TOO_LONG', len(data), 0, '', '', '')
         else:
             # Get data from dataframe
             col_SMILES, col_target = st.columns(2)
@@ -351,9 +351,19 @@ else:
 
                     if st.session_state.new_plot:
                         with st.spinner(f'Plotting your data in about {run_time} seconds'):  
-                            t1 = time.time()
-                            generate_custom_plot()
-                            t2 = time.time()
+                            try:
+                                t1 = time.time()
+                                generate_custom_plot()
+                                t2 = time.time()
+                            except Exception as error:
+                                add_session_info('Custom', 'ERROR_CHEMPLOT', len(data), 0, '', '', '')
+                                st.error("""
+                                Invalid input data. 
+                                Check if you selected the correct
+                                column names for **SMILES** and **target**. If so 
+                                your data might be corrupted.
+                                """)
+                            
 
                     if 'custom_plot' in st.session_state:
                         st.bokeh_chart(st.session_state.custom_plot, use_container_width=True)
