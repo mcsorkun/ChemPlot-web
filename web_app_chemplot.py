@@ -109,13 +109,15 @@ def log_error_info(smiles, targets, error):
     t = now.strftime("%m/%d/%Y, %H:%M:%S")
     worksheet = sht.add_worksheet(title=t, rows=max(len(smiles), len(targets)), cols=3)
     if targets: 
-        values = list(zip(smiles, targets, [error]))
-        worksheet.update([['SMILES', 'targets', 'ERROR']] + values)
+        values = list(zip(smiles, targets))
+        worksheet.update([['SMILES', 'targets']] + values)
+        worksheet.update('C1', 'ERROR')
+        worksheet.update('C2', error)
     else:
         values = list(zip(smiles))
         worksheet.update([['SMILES']] + values)
-       # worksheet.update('B1', 'ERROR')
-       # worksheet.update('B2', error)
+        worksheet.update('B1', 'ERROR')
+        worksheet.update('B2', error)
 
 #########################
 # Session state functions
