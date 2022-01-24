@@ -302,7 +302,7 @@ if dataset == 'Sample Dataset':
             data=st.session_state.plot_html,
             file_name='interactive_plot.html',
             mime='file/html',
-            help='Download the current plot in HTML format.'
+            help='Download the current plot in HTML format.',
         )
 
         add_session_info('Sample', sample, length, int(t2 - t1), sim_type, dim_red_algo, plot_type)
@@ -398,7 +398,7 @@ else:
                             data=html,
                             file_name='interactive_plot.html',
                             mime='file/html',
-                            help='Download the current plot in HTML format.'
+                            help='Download the current plot in HTML format.',
                         )
                     
                         add_session_info('Custom', uploaded_file.name, len(data), 
