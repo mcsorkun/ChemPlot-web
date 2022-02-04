@@ -8,7 +8,7 @@ You can find the details for the background on ChemPlot in our paper. You can fi
 
 ## Web application
 
-You can use the ChemPlot web application by following [this link](https://share.streamlit.io/dajtmullaj/chemplot-web/main/web_app_chemplot.py).
+You can use the ChemPlot web application by following [this link](https://share.streamlit.io/mcsorkun/chemplot-web/main/web_app_chemplot.py).
 
 ## Report an Issue 
              
