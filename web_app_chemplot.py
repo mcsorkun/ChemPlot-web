@@ -188,14 +188,26 @@ def update_custom_plot():
 def generate_custom_plot():
     cp = Plotter.from_smiles(data_SMILES, target=data_target, sim_type=sim_type)
     if dim_red_algo=='PCA':
-        cp.pca()
+        df_2_components = cp.pca()
     elif dim_red_algo=='t-SNE':
-        cp.tsne(random_state=random_state)
+        df_2_components = cp.tsne(random_state=random_state)
     elif dim_red_algo=='UMAP':
-        cp.umap(random_state=random_state)
+        df_2_components = cp.umap(random_state=random_state)
     
-    st.session_state.custom_plot = cp.interactive_plot(kind=plot_type,remove_outliers=rem_out)
+    if clusters > 1:
+        df_2_components = cp.cluster(n_clusters=clusters)
+
+    st.session_state.custom_plot = cp.interactive_plot(kind=plot_type,remove_outliers=rem_out,clusters=True)
+    st.session_state.df_2_components = df_2_components
     st.session_state.new_plot = False
+
+#########################
+# Cached download files
+#########################
+
+@st.cache
+def convert_df(df):
+    return df.to_csv().encode('utf-8')
 
 ######################
 # Page Title
@@ -253,6 +265,9 @@ plot_type = st.sidebar.radio(
 if dataset == 'Upload Dataset':
     rem_out = st.sidebar.checkbox("Do you want to remove outliers?",
     help='Remove the outliers from the plot.')
+
+    clusters = st.sidebar.number_input("Enter the number of clusters you want to separate your data in", min_value=1, step=1,
+    help='You can see your dataset separated in clusters by clicking on the "cluster" tab on the top of the visualization.')
 
     random_state = st.sidebar.number_input("Enter the random state (-1 for None)", min_value=-1, step=1,
     help='Add a random state greater or equal to 0 for reproducible results.')
@@ -378,6 +393,9 @@ else:
                                     t1 = time.time()
                                     generate_custom_plot()
                                     t2 = time.time()
+                                                        
+                                    add_session_info('Custom', uploaded_file.name, len(data), 
+                                        int(t2 - t1), sim_type, dim_red_algo, plot_type)
                                 except Exception as error:
                                     add_session_info('Custom', 'ERROR_CHEMPLOT', len(data), 0, '', '', '')
                                     log_error_info(data_SMILES, data_target, str(error))
@@ -400,9 +418,14 @@ else:
                             mime='file/html',
                             help='Download the current plot in HTML format.',
                         )
-                    
-                        add_session_info('Custom', uploaded_file.name, len(data), 
-                            int(t2 - t1), sim_type, dim_red_algo, plot_type)
+                        csv = convert_df(st.session_state.df_2_components)
+                        st.sidebar.download_button(
+                            label="Download Reduced Dataset",
+                            data=csv,
+                            file_name='df_2_components.csv',
+                            mime='text/csv',
+                            help='Download the current reduced dataset in CSV format.',
+                        )
     
 contacts = st.expander("Contact", expanded=False)
 with contacts:
