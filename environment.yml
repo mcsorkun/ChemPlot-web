@@ -7,8 +7,8 @@ dependencies:
     - chemplot==1.2.0
     - pip
     - pip:
-        - streamlit==1.10.0
-        - bokeh==2.4.1
+        - streamlit==1.11.0
+        - bokeh==2.4.3
         - pandas>=1.3.5
         - gspread==5.0.0
         - google-auth==2.3.3
