@@ -4,7 +4,7 @@ ChemPlot is a python package that allows users to visualize the chemical space o
 
 If you are intrested in a more detailed explanation about ChemPlot please visit the library's official documentation at [Read the docs](https://chemplot.readthedocs.io/en/latest/).
 
-You can find the details for the background on ChemPlot in our paper. You can find our paper at the following link: [Paper](https://chemrxiv.org/engage/chemrxiv/article-details/617180aaff3ba991f99af550).
+You can find the details for the background on ChemPlot in our paper. You can find our paper at the following link: [Paper](https://chemistry-europe.onlinelibrary.wiley.com/doi/10.1002/cmtd.202200005).
 
 ## Web application
 
