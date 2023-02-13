@@ -231,7 +231,7 @@ with about_expander:
 
              You can read about the theoretical background on ChemPlot in our 
              paper. You can find our paper at the following link: 
-             [Paper](https://chemrxiv.org/engage/chemrxiv/article-details/617180aaff3ba991f99af550).
+             [Paper](https://chemistry-europe.onlinelibrary.wiley.com/doi/10.1002/cmtd.202200005).
              ''', unsafe_allow_html=False)
              
 st.write('**Select the Dataset**') 
