@@ -83,41 +83,41 @@ def running_time(n_samples, sim_type, dim_red_algo):
 # Spreadsheet functions
 #########################
 
-# Create a connection object.
-credentials = service_account.Credentials.from_service_account_info(
-    st.secrets["gcp_service_account"],
-    scopes=[
-        "https://www.googleapis.com/auth/spreadsheets",
-    ],
-)
-gc = gspread.authorize(credentials)
-sht = gc.open_by_url(st.secrets["private_gsheets_url"])
-worksheet = sht.worksheet("Logs")
+# # Create a connection object.
+# credentials = service_account.Credentials.from_service_account_info(
+#     st.secrets["gcp_service_account"],
+#     scopes=[
+#         "https://www.googleapis.com/auth/spreadsheets",
+#     ],
+# )
+# gc = gspread.authorize(credentials)
+# sht = gc.open_by_url(st.secrets["private_gsheets_url"])
+# worksheet = sht.worksheet("Logs")
 
-# Uses st.cache to only rerun when the query changes or after 10 min.
-def add_session_info(plot, name, length, gen_t, sim, dim, p_type):
-    if 'id' in st.session_state:
-        st.session_state.id += 1
-    else:
-        st.session_state.id = 0
-    now = datetime.now()
-    t = now.strftime("%m/%d/%Y, %H:%M:%S")
-    worksheet.append_row([st.session_state.id, t, plot, name, length, gen_t, sim, dim, p_type])
+# # Uses st.cache to only rerun when the query changes or after 10 min.
+# def add_session_info(plot, name, length, gen_t, sim, dim, p_type):
+#     if 'id' in st.session_state:
+#         st.session_state.id += 1
+#     else:
+#         st.session_state.id = 0
+#     now = datetime.now()
+#     t = now.strftime("%m/%d/%Y, %H:%M:%S")
+#     worksheet.append_row([st.session_state.id, t, plot, name, length, gen_t, sim, dim, p_type])
 
-def log_error_info(smiles, targets, error):
-    now = datetime.now()
-    t = now.strftime("%m/%d/%Y, %H:%M:%S")
-    worksheet = sht.add_worksheet(title=t, rows=max(len(smiles), len(targets)), cols=3)
-    if len(targets) > 0: 
-        values = list(zip(smiles, targets))
-        worksheet.update([['SMILES', 'targets']] + values)
-        worksheet.update('C1', 'ERROR')
-        worksheet.update('C2', error)
-    else:
-        values = list(zip(smiles))
-        worksheet.update([['SMILES']] + values)
-        worksheet.update('B1', 'ERROR')
-        worksheet.update('B2', error)
+# def log_error_info(smiles, targets, error):
+#     now = datetime.now()
+#     t = now.strftime("%m/%d/%Y, %H:%M:%S")
+#     worksheet = sht.add_worksheet(title=t, rows=max(len(smiles), len(targets)), cols=3)
+#     if len(targets) > 0: 
+#         values = list(zip(smiles, targets))
+#         worksheet.update([['SMILES', 'targets']] + values)
+#         worksheet.update('C1', 'ERROR')
+#         worksheet.update('C2', error)
+#     else:
+#         values = list(zip(smiles))
+#         worksheet.update([['SMILES']] + values)
+#         worksheet.update('B1', 'ERROR')
+#         worksheet.update('B2', error)
 
 #########################
 # Session state functions
@@ -320,7 +320,7 @@ if dataset == 'Sample Dataset':
             help='Download the current plot in HTML format.',
         )
 
-        add_session_info('Sample', sample, length, int(t2 - t1), sim_type, dim_red_algo, plot_type)
+        #add_session_info('Sample', sample, length, int(t2 - t1), sim_type, dim_red_algo, plot_type)
 
     references = st.expander("Sample Datasets Refereces", expanded=False)
     with references:
@@ -350,7 +350,7 @@ else:
                      use the [ChemPlot Python library.]
                      (https://github.com/mcsorkun/ChemPlot)
                      """)
-            add_session_info('Custom', 'TOO_LONG', len(data), 0, '', '', '')
+            #add_session_info('Custom', 'TOO_LONG', len(data), 0, '', '', '')
         else:
             # Get data from dataframe
             col_SMILES, col_target = st.columns(2)
@@ -394,11 +394,11 @@ else:
                                     generate_custom_plot()
                                     t2 = time.time()
                                                         
-                                    add_session_info('Custom', uploaded_file.name, len(data), 
-                                        int(t2 - t1), sim_type, dim_red_algo, plot_type)
+                                    # add_session_info('Custom', uploaded_file.name, len(data), 
+                                    #     int(t2 - t1), sim_type, dim_red_algo, plot_type)
                                 except Exception as error:
-                                    add_session_info('Custom', 'ERROR_CHEMPLOT', len(data), 0, '', '', '')
-                                    log_error_info(data_SMILES, data_target, str(error))
+                                    # add_session_info('Custom', 'ERROR_CHEMPLOT', len(data), 0, '', '', '')
+                                    # log_error_info(data_SMILES, data_target, str(error))
                                     st.error("""
                                     Invalid input data. 
                                     Check if you selected the correct
@@ -444,5 +444,3 @@ with contacts:
              ''')
              
           
-
-
