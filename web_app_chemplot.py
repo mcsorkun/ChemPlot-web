@@ -1,7 +1,7 @@
 """
 Web Application for ChemPlot using Streamlit
 
-@author: Dajt Mullaj, Murat 
+@author: Dajt, Murat, Jackson
 """
 
 ######################
@@ -10,114 +10,40 @@ Web Application for ChemPlot using Streamlit
 import streamlit as st
 import streamlit.components.v1 as components
 import pandas as pd
-import gspread
-import time
-
 from chemplot import Plotter
 from bokeh.embed import file_html
 from bokeh.resources import CDN
-from PIL import Image
-from datetime import datetime
-from google.oauth2 import service_account
+
+from constants import *
 
 ######################
-# Logos
+# Page Config
 ######################
-tab_logo = Image.open("logo_mol.png")
-sidebar_logo = Image.open("chemplot_logo.png")
-
-######################
-# Coefficients
-######################
-
-# Tailored
-PCA_TAIL_COEF_2 = 9.47299622e-08
-PCA_TAIL_COEF_1 = 2.90093365e-03
-PCA_TAIL_INTERC = 4.19205131
-
-TSNE_TAIL_COEF_2 = 3.31581244e-07
-TSNE_TAIL_COEF_1 = 6.10031290e-03
-TSNE_TAIL_INTERC = 5.16853254
-
-UMAP_TAIL_COEF_2 = 9.51843773e-08
-UMAP_TAIL_COEF_1 = 3.51897483e-03
-UMAP_TAIL_INTERC = 7.53709917
-
-# Structural
-PCA_STRU_COEF_2 = 1.63232808e-08
-PCA_STRU_COEF_1 = 1.40949297e-03
-PCA_STRU_INTERC = 0.61769033
-
-TSNE_STRU_COEF_2 = 3.79038881e-06
-TSNE_STRU_COEF_1 = 1.33859978e-03
-TSNE_STRU_INTERC = 7.28995309
-
-UMAP_STRU_COEF_2 = 2.87861709e-08
-UMAP_STRU_COEF_1 = 1.89154853e-03
-UMAP_STRU_INTERC = 3.65305908
+st.set_page_config(page_title="ChemPlot WebApplication", layout="wide", page_icon=TAB_LOGO)
 
 #########################
 # Running time functions
 #########################
-
-def get_running_time(n_samples, coef2, coef1, interc):
-    return int((n_samples**2)*coef2+n_samples*coef1+interc)
+@st.cache_data
+def compute_runtime_coefficients(sim_type, dim_red_algo):
+    if sim_type == "tailored":
+        if dim_red_algo == "t-SNE":
+            return TSNE_TAIL_COEF_2, TSNE_TAIL_COEF_1, TSNE_TAIL_INTERC
+        elif dim_red_algo=="PCA":
+            return PCA_TAIL_COEF_2, PCA_TAIL_COEF_1, PCA_TAIL_INTERC
+        else:
+            return UMAP_TAIL_COEF_2, UMAP_TAIL_COEF_1, UMAP_TAIL_INTERC
+    else:
+        if dim_red_algo == "t-SNE":
+            return TSNE_STRU_COEF_2, TSNE_STRU_COEF_1, TSNE_STRU_INTERC
+        elif dim_red_algo=="PCA":
+            return PCA_STRU_COEF_2, PCA_STRU_COEF_1, PCA_STRU_INTERC
+        else:
+            return UMAP_STRU_COEF_2, UMAP_STRU_COEF_1, UMAP_STRU_INTERC
 
 def running_time(n_samples, sim_type, dim_red_algo):
-    if sim_type=="tailored":
-        if dim_red_algo=="t-SNE":
-            return get_running_time(n_samples, TSNE_TAIL_COEF_2, TSNE_TAIL_COEF_1, TSNE_TAIL_INTERC)
-        elif dim_red_algo=="PCA":
-            return get_running_time(n_samples, PCA_TAIL_COEF_2, PCA_TAIL_COEF_1, PCA_TAIL_INTERC)
-        else:
-            return get_running_time(n_samples, UMAP_TAIL_COEF_2, UMAP_TAIL_COEF_1, UMAP_TAIL_INTERC)
-    else:
-        if dim_red_algo=="t-SNE":
-            return get_running_time(n_samples, TSNE_STRU_COEF_2, TSNE_STRU_COEF_1, TSNE_STRU_INTERC)
-        elif dim_red_algo=="PCA":
-            return get_running_time(n_samples, PCA_STRU_COEF_2, PCA_STRU_COEF_1, PCA_STRU_INTERC)
-        else:
-            return get_running_time(n_samples, UMAP_STRU_COEF_2, UMAP_STRU_COEF_1, UMAP_STRU_INTERC)
-
-#########################
-# Spreadsheet functions
-#########################
-
-# # Create a connection object.
-# credentials = service_account.Credentials.from_service_account_info(
-#     st.secrets["gcp_service_account"],
-#     scopes=[
-#         "https://www.googleapis.com/auth/spreadsheets",
-#     ],
-# )
-# gc = gspread.authorize(credentials)
-# sht = gc.open_by_url(st.secrets["private_gsheets_url"])
-# worksheet = sht.worksheet("Logs")
-
-# # Uses st.cache to only rerun when the query changes or after 10 min.
-# def add_session_info(plot, name, length, gen_t, sim, dim, p_type):
-#     if 'id' in st.session_state:
-#         st.session_state.id += 1
-#     else:
-#         st.session_state.id = 0
-#     now = datetime.now()
-#     t = now.strftime("%m/%d/%Y, %H:%M:%S")
-#     worksheet.append_row([st.session_state.id, t, plot, name, length, gen_t, sim, dim, p_type])
-
-# def log_error_info(smiles, targets, error):
-#     now = datetime.now()
-#     t = now.strftime("%m/%d/%Y, %H:%M:%S")
-#     worksheet = sht.add_worksheet(title=t, rows=max(len(smiles), len(targets)), cols=3)
-#     if len(targets) > 0: 
-#         values = list(zip(smiles, targets))
-#         worksheet.update([['SMILES', 'targets']] + values)
-#         worksheet.update('C1', 'ERROR')
-#         worksheet.update('C2', error)
-#     else:
-#         values = list(zip(smiles))
-#         worksheet.update([['SMILES']] + values)
-#         worksheet.update('B1', 'ERROR')
-#         worksheet.update('B2', error)
+    coef2, coef1, interc = compute_runtime_coefficients(sim_type, dim_red_algo)
+    return int((n_samples**2) * coef2 + n_samples * coef1 + interc)
 
 #########################
 # Session state functions
@@ -130,57 +56,12 @@ def update_plot():
         update_custom_plot()
 
 def update_html_plot():
-    if sample == "BBBP" and sim_type == "tailored" and dim_red_algo == "t-SNE" and plot_type == "scatter":
-        HtmlFile = open("Sample_Plots/BBBP_t_s_s.html", 'r', encoding='utf-8')
-    elif sample == "BBBP" and sim_type == "tailored" and dim_red_algo == "t-SNE" and plot_type == "hex":
-        HtmlFile = open("Sample_Plots/BBBP_t_s_h.html", 'r', encoding='utf-8')
-    elif sample == "BBBP" and sim_type == "tailored" and dim_red_algo == "PCA" and plot_type == "scatter":
-        HtmlFile = open("Sample_Plots/BBBP_t_p_s.html", 'r', encoding='utf-8')
-    elif sample == "BBBP" and sim_type == "tailored" and dim_red_algo == "PCA" and plot_type == "hex":
-        HtmlFile = open("Sample_Plots/BBBP_t_p_h.html", 'r', encoding='utf-8')
-    elif sample == "BBBP" and sim_type == "tailored" and dim_red_algo == "UMAP" and plot_type == "scatter":
-        HtmlFile = open("Sample_Plots/BBBP_t_u_s.html", 'r', encoding='utf-8')
-    elif sample == "BBBP" and sim_type == "tailored" and dim_red_algo == "UMAP" and plot_type == "hex":
-        HtmlFile = open("Sample_Plots/BBBP_t_u_h.html", 'r', encoding='utf-8')
-    elif sample == "BBBP" and sim_type == "structural" and dim_red_algo == "t-SNE" and plot_type == "scatter":
-        HtmlFile = open("Sample_Plots/BBBP_s_s_s.html", 'r', encoding='utf-8')
-    elif sample == "BBBP" and sim_type == "structural" and dim_red_algo == "t-SNE" and plot_type == "hex":
-        HtmlFile = open("Sample_Plots/BBBP_s_s_h.html", 'r', encoding='utf-8')
-    elif sample == "BBBP" and sim_type == "structural" and dim_red_algo == "PCA" and plot_type == "scatter":
-        HtmlFile = open("Sample_Plots/BBBP_s_p_s.html", 'r', encoding='utf-8')
-    elif sample == "BBBP" and sim_type == "structural" and dim_red_algo == "PCA" and plot_type == "hex":
-        HtmlFile = open("Sample_Plots/BBBP_s_p_h.html", 'r', encoding='utf-8')
-    elif sample == "BBBP" and sim_type == "structural" and dim_red_algo == "UMAP" and plot_type == "scatter":
-        HtmlFile = open("Sample_Plots/BBBP_s_u_s.html", 'r', encoding='utf-8')
-    elif sample == "BBBP" and sim_type == "structural" and dim_red_algo == "UMAP" and plot_type == "hex":
-        HtmlFile = open("Sample_Plots/BBBP_s_u_h.html", 'r', encoding='utf-8')
-    elif sample == "AqSolDB" and sim_type == "tailored" and dim_red_algo == "t-SNE" and plot_type == "scatter":
-        HtmlFile = open("Sample_Plots/AQSOLDB_t_s_s.html", 'r', encoding='utf-8')
-    elif sample == "AqSolDB" and sim_type == "tailored" and dim_red_algo == "t-SNE" and plot_type == "hex":
-        HtmlFile = open("Sample_Plots/AQSOLDB_t_s_h.html", 'r', encoding='utf-8')
-    elif sample == "AqSolDB" and sim_type == "tailored" and dim_red_algo == "PCA" and plot_type == "scatter":
-        HtmlFile = open("Sample_Plots/AQSOLDB_t_p_s.html", 'r', encoding='utf-8')
-    elif sample == "AqSolDB" and sim_type == "tailored" and dim_red_algo == "PCA" and plot_type == "hex":
-        HtmlFile = open("Sample_Plots/AQSOLDB_t_p_h.html", 'r', encoding='utf-8')
-    elif sample == "AqSolDB" and sim_type == "tailored" and dim_red_algo == "UMAP" and plot_type == "scatter":
-        HtmlFile = open("Sample_Plots/AQSOLDB_t_u_s.html", 'r', encoding='utf-8')
-    elif sample == "AqSolDB" and sim_type == "tailored" and dim_red_algo == "UMAP" and plot_type == "hex":
-        HtmlFile = open("Sample_Plots/AQSOLDB_t_u_h.html", 'r', encoding='utf-8')
-    elif sample == "AqSolDB" and sim_type == "structural" and dim_red_algo == "t-SNE" and plot_type == "scatter":
-        HtmlFile = open("Sample_Plots/AQSOLDB_s_s_s.html", 'r', encoding='utf-8')
-    elif sample == "AqSolDB" and sim_type == "structural" and dim_red_algo == "t-SNE" and plot_type == "hex":
-        HtmlFile = open("Sample_Plots/AQSOLDB_s_s_h.html", 'r', encoding='utf-8')
-    elif sample == "AqSolDB" and sim_type == "structural" and dim_red_algo == "PCA" and plot_type == "scatter":
-        HtmlFile = open("Sample_Plots/AQSOLDB_s_p_s.html", 'r', encoding='utf-8')
-    elif sample == "AqSolDB" and sim_type == "structural" and dim_red_algo == "PCA" and plot_type == "hex":
-        HtmlFile = open("Sample_Plots/AQSOLDB_s_p_h.html", 'r', encoding='utf-8')
-    elif sample == "AqSolDB" and sim_type == "structural" and dim_red_algo == "UMAP" and plot_type == "scatter":
-        HtmlFile = open("Sample_Plots/AQSOLDB_s_u_s.html", 'r', encoding='utf-8')
-    elif sample == "AqSolDB" and sim_type == "structural" and dim_red_algo == "UMAP" and plot_type == "hex":
-        HtmlFile = open("Sample_Plots/AQSOLDB_s_u_h.html", 'r', encoding='utf-8')
-    
-    st.session_state.plot_html = HtmlFile.read() 
-    HtmlFile.close()
+    file_path = PLOT_MAP.get((sample, sim_type, dim_red_algo, plot_type))
+    if file_path:
+        with open(file_path, 'r', encoding='utf-8') as HtmlFile:
+            st.session_state.plot_html = HtmlFile.read()
+    else:
+        st.warning("No matching plot found.")
     
 def update_custom_plot():
     st.session_state.new_plot = True
@@ -205,15 +86,13 @@ def generate_custom_plot():
 # Cached download files
 #########################
 
-@st.cache
+@st.cache_data
 def convert_df(df):
     return df.to_csv().encode('utf-8')
 
 ######################
 # Page Title
 ######################
-st.set_page_config(page_title="ChemPlot WebApplication", page_icon=tab_logo)
-
 st.write("""# ChemPlot: A Tool For Chemical Space Visualization""")
 
 about_expander = st.expander("About ChemPlot", expanded=True)
@@ -234,7 +113,7 @@ with about_expander:
              [Paper](https://chemistry-europe.onlinelibrary.wiley.com/doi/10.1002/cmtd.202200005).
              ''', unsafe_allow_html=False)
              
-st.write('**Select the Dataset**') 
+st.subheader('Select the Dataset') 
          
 dataset = st.selectbox(
      'Choose if to upload your dataset or use a sample',
@@ -243,7 +122,7 @@ dataset = st.selectbox(
 ######################
 # Side Panel 
 ######################
-st.sidebar.image(sidebar_logo)
+st.sidebar.image(SIDEBAR_LOGO)
 
 st.sidebar.write('**Visualization Parameters**') 
 
@@ -262,19 +141,21 @@ plot_type = st.sidebar.radio(
      ('scatter', 'hex'),
      help='Visualize a scatter plot or an hexagonal plot.')
 
-if dataset == 'Upload Dataset':
-    rem_out = st.sidebar.checkbox("Do you want to remove outliers?",
-    help='Remove the outliers from the plot.')
+with st.sidebar.expander("Advanced Options", expanded=False):
+    if dataset == 'Upload Dataset':
+        rem_out = st.checkbox("Do you want to remove outliers?",
+        help='Remove the outliers from the plot.')
 
-    clusters = st.sidebar.number_input("Enter the number of clusters you want to separate your data in", min_value=1, step=1,
-    help='You can see your dataset separated in clusters by clicking on the "cluster" tab on the top of the visualization.')
+        clusters = st.number_input("Enter the number of clusters you want to separate your data in", min_value=1, step=1,
+        help='You can see your dataset separated in clusters by clicking on the "cluster" tab on the top of the visualization.')
 
-    random_state = st.sidebar.number_input("Enter the random state (-1 for None)", min_value=-1, step=1,
-    help='Add a random state greater or equal to 0 for reproducible results.')
-
+        random_state = st.number_input("Enter the random state (-1 for None)", min_value=-1, step=1,
+        help='Add a random state greater or equal to 0 for reproducible results.')
+        
 create_viz = st.sidebar.button('Create Visualization', 
                 help='Generate visualization with the current parameters.',
                 on_click=update_plot)
+
 ######################
 # Input Data
 ######################
@@ -294,23 +175,20 @@ if dataset == 'Sample Dataset':
         data =  pd.read_csv("Sample_Plots/R_9982_AQSOLDB.csv")
         length = 9982
         sample = 'AqSolDB'
-    data_expander = st.expander("Explore the Dataset", expanded=False)
-    with data_expander:
-        st.dataframe(data)
-            
-    data_plot = st.expander("Visualize the Chemical Space", expanded=True)
-    with data_plot:
+    
+    plot_col, data_col = st.columns([3, 2], border=True)
+    
+    with plot_col:
+        st.subheader("ChemPlot Visualization")
         st.write(''' 
         Select the visualization parameters from the sidebar and click on
         **Create Visualization** to generate the desired plot.
         ''')
         #Initialize plot
-        t1 = time.time()
         if 'plot_html' not in st.session_state:
             update_html_plot()
         
-        components.html(st.session_state.plot_html, width=900, height=680)
-        t2 = time.time()
+        components.html(st.session_state.plot_html,  height=680, scrolling=True)
 
         st.sidebar.download_button(
             label="Download Plot",
@@ -319,22 +197,25 @@ if dataset == 'Sample Dataset':
             mime='file/html',
             help='Download the current plot in HTML format.',
         )
-
-        #add_session_info('Sample', sample, length, int(t2 - t1), sim_type, dim_red_algo, plot_type)
+    
+    with data_col:
+        st.subheader("Explore the Dataset")
+        st.write(''' 
+            Datasets must contain a SMILES column which ChemPlot can process.
+        ''')
+        st.dataframe(data, height=680, use_container_width=True)
 
     references = st.expander("Sample Datasets Refereces", expanded=False)
     with references:
         st.write("""
                  [1] Martins, Ines Filipa, et al. [A Bayesian approach to in 
-                 silico blood-brain barrier penetration modeling.] 
-                 (https://pubs.acs.org/doi/abs/10.1021/ci300124c) Journal of 
-                 chemical information and modeling 52.6 (2012): 1686-1697.
+                 silico blood-brain barrier penetration modeling.](https://pubs.acs.org/doi/abs/10.1021/ci300124c)
+                 Journal of chemical information and modeling 52.6 (2012): 1686-1697.
                  
                  [2] Sorkun, M. C., Khetan, A., & Er, S. (2019). [AqSolDB, a 
                  curated reference set of aqueous solubility and 2D descriptors 
-                 for a diverse set of compounds.] 
-                 (https://www.nature.com/articles/s41597-019-0151-1) Scientific 
-                 data, 6(1), 1-8.
+                 for a diverse set of compounds.](https://www.nature.com/articles/s41597-019-0151-1) 
+                 Scientific data, 6(1), 1-8.
                  """)
 
 else:
@@ -350,7 +231,6 @@ else:
                      use the [ChemPlot Python library.]
                      (https://github.com/mcsorkun/ChemPlot)
                      """)
-            #add_session_info('Custom', 'TOO_LONG', len(data), 0, '', '', '')
         else:
             # Get data from dataframe
             col_SMILES, col_target = st.columns(2)
@@ -368,12 +248,11 @@ else:
                 data_target=[]
             else:
                 data_target=data[column_target] 
-            data_expander = st.expander("Explore the Dataset", expanded=False)
-            with data_expander:
-                st.dataframe(data)
             
-            data_plot = st.expander('Visualize the Chemical Space', expanded=True)
-            with data_plot:
+            plot_col, data_col = st.columns([3, 2], border=True)
+            
+            with plot_col:
+                st.subheader("ChemPlot Visualization")
                 st.write(''' 
                 Select the visualization parameters from the sidebar and click on
                 **Create Visualization** to generate the desired plot.
@@ -390,15 +269,8 @@ else:
                         if st.session_state.new_plot:
                             with st.spinner(f'Plotting your data in about {run_time} seconds'):  
                                 try:
-                                    t1 = time.time()
                                     generate_custom_plot()
-                                    t2 = time.time()
-                                                        
-                                    # add_session_info('Custom', uploaded_file.name, len(data), 
-                                    #     int(t2 - t1), sim_type, dim_red_algo, plot_type)
                                 except Exception as error:
-                                    # add_session_info('Custom', 'ERROR_CHEMPLOT', len(data), 0, '', '', '')
-                                    # log_error_info(data_SMILES, data_target, str(error))
                                     st.error("""
                                     Invalid input data. 
                                     Check if you selected the correct
@@ -409,8 +281,8 @@ else:
                             
 
                     if 'custom_plot' in st.session_state:
-                        st.bokeh_chart(st.session_state.custom_plot, use_container_width=True)
                         html = file_html(st.session_state.custom_plot, CDN)
+                        components.html(html, height=680, scrolling=True)
                         st.sidebar.download_button(
                             label="Download Plot",
                             data=html,
@@ -426,6 +298,13 @@ else:
                             mime='text/csv',
                             help='Download the current reduced dataset in CSV format.',
                         )
+
+            with data_col:
+                st.subheader("Explore the Dataset")
+                st.write(''' 
+                    Datasets must contain a SMILES column which ChemPlot can process.
+                ''')
+                st.dataframe(data, height=680, use_container_width=True)
     
 contacts = st.expander("Contact", expanded=False)
 with contacts:
@@ -433,14 +312,15 @@ with contacts:
              #### Report an Issue 
              
              You are welcome to report a bug or contribuite to the web 
-             application by filing an issue on [Github] (https://github.com/mcsorkun/ChemPlot-web/issues).
+             application by filing an issue on [Github](https://github.com/mcsorkun/ChemPlot-web/issues).
              
              #### Contact
              
              For any question you can contact us through email:
                  
-             - [Murat Cihan Sorkun] (mailto:mcsorkun@gmail.com)
-             - [Dajt Mullaj] (mailto:dajt.mullai@gmail.com)
+             - [Murat Cihan Sorkun](mailto:mcsorkun@gmail.com)
+             - [Dajt Mullaj](mailto:dajt.mullai@gmail.com)
+             - [Jackson Warner Burns](mailto:jwburns@mit.edu)
              ''')
              
           
